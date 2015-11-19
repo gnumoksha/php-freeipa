@@ -1,0 +1,87 @@
+[root@fedora ~]# ipa help group_add
+Usage: ipa [global-options] group-add GROUP-NAME [options]
+
+Create a new group.
+Options:
+  -h, --help     show this help message and exit
+  --desc=STR     Group description
+  --gid=INT      GID (use this option to set it manually)
+  --setattr=STR  Set an attribute to a name/value pair. Format is attr=value.
+                 For multi-valued attributes, the command replaces the values
+                 already present.
+  --addattr=STR  Add an attribute/value pair. Format is attr=value. The
+                 attribute must be part of the schema.
+  --nonposix     Create as a non-POSIX group
+  --external     Allow adding external non-IPA members from trusted domains
+  --all          Retrieve and print all attributes from the server. Affects
+                 command output.
+  --raw          Print entries as stored on the server. Only affects output
+                 format.
+
+
+--------------------------------------------------------
+
+
+[root@fedora ~]# ipa -vv group-add clube_bolinha --desc="Grupo tal" --all 
+ipa: INFO: trying https://fedora.ipateste.com.br/ipa/json
+ipa: INFO: Forwarding 'group_add' to json server 'https://fedora.ipateste.com.br/ipa/json'
+ipa: INFO: Request: {
+    "id": 0, 
+    "method": "group_add", 
+    "params": [
+        [
+            "clube_bolinha"
+        ], 
+        {
+            "all": true, 
+            "description": "Grupo tal", 
+            "external": false, 
+            "no_members": false, 
+            "nonposix": false, 
+            "raw": false, 
+            "version": "2.114"
+        }
+    ]
+}
+ipa: INFO: Response: {
+    "error": null, 
+    "id": 0, 
+    "principal": "admin@IPATESTE.COM.BR", 
+    "result": {
+        "result": {
+            "cn": [
+                "clube_bolinha"
+            ], 
+            "description": [
+                "Grupo tal"
+            ], 
+            "dn": "cn=clube_bolinha,cn=groups,cn=accounts,dc=ipateste,dc=com,dc=br", 
+            "gidnumber": [
+                "768600017"
+            ], 
+            "ipauniqueid": [
+                "c0a411fc-2ba7-11e5-bc6c-0800278b868f"
+            ], 
+            "objectclass": [
+                "ipaobject", 
+                "top", 
+                "ipausergroup", 
+                "posixgroup", 
+                "groupofnames", 
+                "nestedgroup"
+            ]
+        }, 
+        "summary": "Added group \"clube_bolinha\"", 
+        "value": "clube_bolinha"
+    }, 
+    "version": "4.1.4"
+}
+---------------------------
+Added group "clube_bolinha"
+---------------------------
+  dn: cn=clube_bolinha,cn=groups,cn=accounts,dc=ipateste,dc=com,dc=br
+  Group name: clube_bolinha
+  Description: Grupo tal
+  GID: 768600017
+  ipauniqueid: c0a411fc-2ba7-11e5-bc6c-0800278b868f
+  objectclass: ipaobject, top, ipausergroup, posixgroup, groupofnames, nestedgroup

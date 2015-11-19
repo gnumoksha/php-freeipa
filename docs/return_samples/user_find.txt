@@ -1,0 +1,413 @@
+[root@fedora ~]# ipa help user-find
+Usage: ipa [global-options] user-find [CRITERIA] [options]
+
+Search for users.
+Options:
+  -h, --help            show this help message and exit
+  --login=STR           User login
+  --first=STR           First name
+  --last=STR            Last name
+  --cn=STR              Full name
+  --displayname=STR     Display name
+  --initials=STR        Initials
+  --homedir=STR         Home directory
+  --gecos=STR           GECOS
+  --shell=STR           Login shell
+  --principal=STR       Kerberos principal
+  --principal-expiration=DATETIME
+                        Kerberos principal expiration
+  --email=STR           Email address
+  --password            Prompt to set the user password
+  --uid=INT             User ID Number (system will assign one if not
+                        provided)
+  --gidnumber=INT       Group ID Number
+  --street=STR          Street address
+  --city=STR            City
+  --state=STR           State/Province
+  --postalcode=STR      ZIP
+  --phone=STR           Telephone Number
+  --mobile=STR          Mobile Telephone Number
+  --pager=STR           Pager Number
+  --fax=STR             Fax Number
+  --orgunit=STR         Org. Unit
+  --title=STR           Job Title
+  --manager=STR         Manager
+  --carlicense=STR      Car License
+  --user-auth-type=['password', 'radius', 'otp']
+                        Types of supported user authentication
+  --class=STR           User category (semantics placed on this attribute are
+                        for local interpretation)
+  --radius=STR          RADIUS proxy configuration
+  --radius-username=STR
+                        RADIUS proxy username
+  --departmentnumber=STR
+                        Department Number
+  --employeenumber=STR  Employee Number
+  --employeetype=STR    Employee Type
+  --preferredlanguage=STR
+                        Preferred Language
+  --timelimit=INT       Time limit of search in seconds
+  --sizelimit=INT       Maximum number of entries returned
+  --whoami              Display user record for current Kerberos principal
+  --all                 Retrieve and print all attributes from the server.
+                        Affects command output.
+  --raw                 Print entries as stored on the server. Only affects
+                        output format.
+  --pkey-only           Results should contain primary key attribute only
+                        ("login")
+  --in-groups=STR       Search for users with these member of groups.
+  --not-in-groups=STR   Search for users without these member of groups.
+  --in-netgroups=STR    Search for users with these member of netgroups.
+  --not-in-netgroups=STR
+                        Search for users without these member of netgroups.
+  --in-roles=STR        Search for users with these member of roles.
+  --not-in-roles=STR    Search for users without these member of roles.
+  --in-hbacrules=STR    Search for users with these member of HBAC rules.
+  --not-in-hbacrules=STR
+                        Search for users without these member of HBAC rules.
+  --in-sudorules=STR    Search for users with these member of sudo rules.
+  --not-in-sudorules=STR
+                        Search for users without these member of sudo rules.
+
+
+--------------------------------------------------------
+
+
+[root@fedora ~]# ipa -vv user_find teste
+ipa: INFO: trying https://fedora.ipateste.com.br/ipa/json
+ipa: INFO: Forwarding 'user_find' to json server 'https://fedora.ipateste.com.br/ipa/json'
+ipa: INFO: Request: {
+    "id": 0,
+    "method": "user_find",
+    "params": [
+        [
+            "teste"
+        ],
+        {
+            "all": false,
+            "no_members": false,
+            "pkey_only": false,
+            "raw": false,
+            "version": "2.114",
+            "whoami": false
+        }
+    ]
+}
+ipa: INFO: Response: {
+    "error": null,
+    "id": 0,
+    "principal": "admin@IPATESTE.COM.BR",
+    "result": {
+        "count": 2,
+        "result": [
+            {
+                "dn": "uid=quarto_usuario,cn=users,cn=accounts,dc=ipateste,dc=com,dc=br",
+                "gidnumber": [
+                    "768600004"
+                ],
+                "givenname": [
+                    "Teste"
+                ],
+                "has_keytab": true,
+                "has_password": true,
+                "homedirectory": [
+                    "/home/quarto_usuario"
+                ],
+                "loginshell": [
+                    "/bin/sh"
+                ],
+                "mail": [
+                    "quarto_usuario@ipateste.com.br"
+                ],
+                "nsaccountlock": false,
+                "sn": [
+                    "Quarto usu\u00e1rio"
+                ],
+                "uid": [
+                    "quarto_usuario"
+                ],
+                "uidnumber": [
+                    "768600004"
+                ]
+            },
+            {
+                "dn": "uid=teste,cn=users,cn=accounts,dc=ipateste,dc=com,dc=br",
+                "gidnumber": [
+                    "768600001"
+                ],
+                "givenname": [
+                    "um"
+                ],
+                "has_keytab": true,
+                "has_password": true,
+                "homedirectory": [
+                    "/home/teste"
+                ],
+                "loginshell": [
+                    "/bin/sh"
+                ],
+                "mail": [
+                    "teste@ipateste.com.br"
+                ],
+                "nsaccountlock": false,
+                "sn": [
+                    "testado"
+                ],
+                "title": [
+                    "Usu\u00e1rio testador"
+                ],
+                "uid": [
+                    "teste"
+                ],
+                "uidnumber": [
+                    "768600001"
+                ]
+            }
+        ],
+        "summary": "2 users matched",
+        "truncated": false
+    },
+    "version": "4.1.4"
+}
+---------------
+2 users matched
+---------------
+  User login: quarto_usuario
+  First name: Teste
+  Last name: Quarto usuário
+  Home directory: /home/quarto_usuario
+  Login shell: /bin/sh
+  Email address: quarto_usuario@ipateste.com.br
+  UID: 768600004
+  GID: 768600004
+  Account disabled: False
+  Password: True
+  Kerberos keys available: True
+
+  User login: teste
+  First name: um
+  Last name: testado
+  Home directory: /home/teste
+  Login shell: /bin/sh
+  Email address: teste@ipateste.com.br
+  UID: 768600001
+  GID: 768600001
+  Job Title: Usuário testador
+  Account disabled: False
+  Password: True
+  Kerberos keys available: True
+----------------------------
+Number of entries returned 2
+----------------------------
+
+
+--------------------------------------------------------
+
+
+[root@fedora ~]# ipa -vv user-find --all --shell="/bin/bash" --login="admin"
+ipa: INFO: trying https://fedora.ipateste.com.br/ipa/session/json
+ipa: INFO: Forwarding 'user_find' to json server 'https://fedora.ipateste.com.br/ipa/session/json'
+ipa: INFO: Request: {
+    "id": 0,
+    "method": "user_find",
+    "params": [
+        [
+            null
+        ],
+        {
+            "all": true,
+            "loginshell": "/bin/bash",
+            "no_members": false,
+            "pkey_only": false,
+            "raw": false,
+            "uid": "admin",
+            "version": "2.114",
+            "whoami": false
+        }
+    ]
+}
+ipa: INFO: Response: {
+    "error": null,
+    "id": 0,
+    "principal": "admin@IPATESTE.COM.BR",
+    "result": {
+        "count": 1,
+        "result": [
+            {
+                "cn": [
+                    "Administrator"
+                ],
+                "dn": "uid=admin,cn=users,cn=accounts,dc=ipateste,dc=com,dc=br",
+                "gecos": [
+                    "Administrator"
+                ],
+                "gidnumber": [
+                    "768600000"
+                ],
+                "has_keytab": true,
+                "has_password": true,
+                "homedirectory": [
+                    "/home/admin"
+                ],
+                "ipauniqueid": [
+                    "f3c2b262-0bd3-11e5-aab3-0800278b868f"
+                ],
+                "krbextradata": [
+                    {
+                        "__base64__": "AAJcJnJVcm9vdC9hZG1pbkBJTkZPQkFTRVRFU1RFLkNPTS5CUgA="
+                    }
+                ],
+                "krblastadminunlock": [
+                    {
+                        "__datetime__": "20150607144333Z"
+                    }
+                ],
+                "krblastfailedauth": [
+                    {
+                        "__datetime__": "20150620014448Z"
+                    }
+                ],
+                "krblastpwdchange": [
+                    {
+                        "__datetime__": "20150605224444Z"
+                    }
+                ],
+                "krblastsuccessfulauth": [
+                    {
+                        "__datetime__": "20150716051007Z"
+                    }
+                ],
+                "krbloginfailedcount": [
+                    "0"
+                ],
+                "krbpasswordexpiration": [
+                    {
+                        "__datetime__": "20150903224444Z"
+                    }
+                ],
+                "krbprincipalname": [
+                    "admin@IPATESTE.COM.BR"
+                ],
+                "loginshell": [
+                    "/bin/bash"
+                ],
+                "memberof_group": [
+                    "trust admins",
+                    "admins"
+                ],
+                "nsaccountlock": false,
+                "objectclass": [
+                    "ipaSshGroupOfPubKeys",
+                    "ipaobject",
+                    "top",
+                    "ipasshuser",
+                    "person",
+                    "krbticketpolicyaux",
+                    "krbprincipalaux",
+                    "inetuser",
+                    "posixaccount"
+                ],
+                "sn": [
+                    "Administrator"
+                ],
+                "uid": [
+                    "admin"
+                ],
+                "uidnumber": [
+                    "768600000"
+                ]
+            }
+        ],
+        "summary": "1 user matched",
+        "truncated": false
+    },
+    "version": "4.1.4"
+}
+--------------
+1 user matched
+--------------
+  dn: uid=admin,cn=users,cn=accounts,dc=ipateste,dc=com,dc=br
+  User login: admin
+  Last name: Administrator
+  Full name: Administrator
+  Home directory: /home/admin
+  GECOS: Administrator
+  Login shell: /bin/bash
+  Kerberos principal: admin@IPATESTE.COM.BR
+  UID: 768600000
+  GID: 768600000
+  Account disabled: False
+  Password: True
+  Member of groups: trust admins, admins
+  Kerberos keys available: True
+  ipauniqueid: f3c2b262-0bd3-11e5-aab3-0800278b868f
+  krbextradata: AAJcJnJVcm9vdC9hZG1pbkBJTkZPQkFTRVRFU1RFLkNPTS5CUgA=
+  krblastadminunlock: 20150607144333Z
+  krblastfailedauth: 20150620014448Z
+  krblastpwdchange: 20150605224444Z
+  krblastsuccessfulauth: 20150716051007Z
+  krbloginfailedcount: 0
+  krbpasswordexpiration: 20150903224444Z
+  objectclass: ipaSshGroupOfPubKeys, ipaobject, top, ipasshuser, person, krbticketpolicyaux, krbprincipalaux, inetuser, posixaccount
+----------------------------
+Number of entries returned 1
+----------------------------
+
+
+
+--------------------------------------------------------
+
+
+
+[root@fedora ~]# ipa -vv user-find --all --login="login" --first="nome" --last="sobrenome" --cn="nome completo" --email="joao@provedor.com.br" --uid="1111111" --in-groups="grupotal" --not-in-groups="grupoexcluido"
+ipa: INFO: trying https://fedora.ipateste.com.br/ipa/json
+ipa: INFO: Forwarding 'user_find' to json server 'https://fedora.ipateste.com.br/ipa/json'
+ipa: INFO: Request: {
+    "id": 0,
+    "method": "user_find",
+    "params": [
+        [
+            null
+        ],
+        {
+            "all": true,
+            "cn": "nome completo",
+            "givenname": "nome",
+            "in_group": [
+                "grupotal"
+            ],
+            "mail": [
+                "joao@provedor.com.br"
+            ],
+            "no_members": false,
+            "not_in_group": [
+                "grupoexcluido"
+            ],
+            "pkey_only": false,
+            "raw": false,
+            "sn": "sobrenome",
+            "uid": "login",
+            "uidnumber": 1111111,
+            "version": "2.114",
+            "whoami": false
+        }
+    ]
+}
+ipa: INFO: Response: {
+    "error": null,
+    "id": 0,
+    "principal": "admin@IPATESTE.COM.BR",
+    "result": {
+        "count": 0,
+        "result": [],
+        "summary": "0 users matched",
+        "truncated": false
+    },
+    "version": "4.1.4"
+}
+---------------
+0 users matched
+---------------
+----------------------------
+Number of entries returned 0
+----------------------------

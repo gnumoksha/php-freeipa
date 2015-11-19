@@ -1,0 +1,67 @@
+[root@fedora ~]# ipa -vv user-show admin
+ipa: INFO: trying https://fedora.ipateste.com.br/ipa/session/json
+ipa: INFO: Forwarding 'user_show' to json server 'https://fedora.ipateste.com.br/ipa/session/json'
+ipa: INFO: Request: {
+    "id": 0,
+    "method": "user_show",
+    "params": [
+        [
+            "admin"
+        ],
+        {
+            "all": false,
+            "no_members": false,
+            "raw": false,
+            "rights": false,
+            "version": "2.114"
+        }
+    ]
+}
+ipa: INFO: Response: {
+    "error": null,
+    "id": 0,
+    "principal": "admin@IPATESTE.COM.BR",
+    "result": {
+        "result": {
+            "dn": "uid=admin,cn=users,cn=accounts,dc=ipateste,dc=com,dc=br",
+            "gidnumber": [
+                "768600000"
+            ],
+            "has_keytab": true,
+            "has_password": true,
+            "homedirectory": [
+                "/home/admin"
+            ],
+            "loginshell": [
+                "/bin/bash"
+            ],
+            "memberof_group": [
+                "trust admins",
+                "admins"
+            ],
+            "nsaccountlock": false,
+            "sn": [
+                "Administrator"
+            ],
+            "uid": [
+                "admin"
+            ],
+            "uidnumber": [
+                "768600000"
+            ]
+        },
+        "summary": null,
+        "value": "admin"
+    },
+    "version": "4.1.4"
+}
+  User login: admin
+  Last name: Administrator
+  Home directory: /home/admin
+  Login shell: /bin/bash
+  UID: 768600000
+  GID: 768600000
+  Account disabled: False
+  Password: True
+  Member of groups: trust admins, admins
+  Kerberos keys available: True

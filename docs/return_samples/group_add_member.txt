@@ -1,0 +1,146 @@
+[root@fedora ~]# ipa help group_add_member
+Usage: ipa [global-options] group-add-member GROUP-NAME [options]
+
+Add members to a group.
+Options:
+  -h, --help      show this help message and exit
+  --external=STR  Members of a trusted domain in DOM\name or name@domain form
+  --all           Retrieve and print all attributes from the server. Affects
+                  command output.
+  --raw           Print entries as stored on the server. Only affects output
+                  format.
+  --users=STR     users to add
+  --groups=STR    groups to add
+
+
+--------------------------------------------------------
+
+
+[root@fedora ~]# ipa -vv group_add_member clube_bolinha --users="stallman"
+ipa: INFO: trying https://fedora.ipateste.com.br/ipa/json
+ipa: INFO: Forwarding 'group_add_member' to json server 'https://fedora.ipateste.com.br/ipa/json'
+ipa: INFO: Request: {
+    "id": 0, 
+    "method": "group_add_member", 
+    "params": [
+        [
+            "clube_bolinha"
+        ], 
+        {
+            "all": false, 
+            "no_members": false, 
+            "raw": false, 
+            "user": [
+                "stallman"
+            ], 
+            "version": "2.114"
+        }
+    ]
+}
+ipa: INFO: Response: {
+    "error": null, 
+    "id": 0, 
+    "principal": "admin@IPATESTE.COM.BR", 
+    "result": {
+        "completed": 1, 
+        "failed": {
+            "member": {
+                "group": [], 
+                "user": []
+            }
+        }, 
+        "result": {
+            "cn": [
+                "clube_bolinha"
+            ], 
+            "description": [
+                "Grupo tal"
+            ], 
+            "dn": "cn=clube_bolinha,cn=groups,cn=accounts,dc=ipateste,dc=com,dc=br", 
+            "gidnumber": [
+                "768600019"
+            ], 
+            "member_user": [
+                "stallman"
+            ]
+        }
+    }, 
+    "version": "4.1.4"
+}
+  Group name: clube_bolinha
+  Description: Grupo tal
+  GID: 768600019
+  Member users: stallman
+-------------------------
+Number of members added 1
+-------------------------
+
+
+--------------------------------------------------------
+
+
+[root@fedora ~]# ipa -vv group_add_member grupo381 --users="stallman" --groups="clube_bolinha"              
+ipa: INFO: trying https://fedora.ipateste.com.br/ipa/session/json
+ipa: INFO: Forwarding 'group_add_member' to json server 'https://fedora.ipateste.com.br/ipa/session/json'
+ipa: INFO: Request: {
+    "id": 0, 
+    "method": "group_add_member", 
+    "params": [
+        [
+            "grupo381"
+        ], 
+        {
+            "all": false, 
+            "group": [
+                "clube_bolinha"
+            ], 
+            "no_members": false, 
+            "raw": false, 
+            "user": [
+                "stallman"
+            ], 
+            "version": "2.114"
+        }
+    ]
+}
+ipa: INFO: Response: {
+    "error": null, 
+    "id": 0, 
+    "principal": "admin@IPATESTE.COM.BR", 
+    "result": {
+        "completed": 2, 
+        "failed": {
+            "member": {
+                "group": [], 
+                "user": []
+            }
+        }, 
+        "result": {
+            "cn": [
+                "grupo381"
+            ], 
+            "description": [
+                "Descri\u00e7\u00e3o do grupo381"
+            ], 
+            "dn": "cn=grupo381,cn=groups,cn=accounts,dc=ipateste,dc=com,dc=br", 
+            "gidnumber": [
+                "768600020"
+            ], 
+            "member_group": [
+                "clube_bolinha"
+            ], 
+            "member_user": [
+                "stallman"
+            ]
+        }
+    }, 
+    "version": "4.1.4"
+}
+  Group name: grupo381
+  Description: Descrição do grupo381
+  GID: 768600020
+  Member users: stallman
+  Member groups: clube_bolinha
+-------------------------
+Number of members added 2
+-------------------------

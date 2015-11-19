@@ -1,0 +1,332 @@
+[root@fedora ~]# ipa help user_mod
+Usage: ipa [global-options] user-mod LOGIN [options]
+
+Modify a user.
+Options:
+  -h, --help            show this help message and exit
+  --first=STR           First name
+  --last=STR            Last name
+  --cn=STR              Full name
+  --displayname=STR     Display name
+  --initials=STR        Initials
+  --homedir=STR         Home directory
+  --gecos=STR           GECOS
+  --shell=STR           Login shell
+  --principal-expiration=DATETIME
+                        Kerberos principal expiration
+  --email=STR           Email address
+  --password            Prompt to set the user password
+  --random              Generate a random user password
+  --uid=INT             User ID Number (system will assign one if not
+                        provided)
+  --gidnumber=INT       Group ID Number
+  --street=STR          Street address
+  --city=STR            City
+  --state=STR           State/Province
+  --postalcode=STR      ZIP
+  --phone=STR           Telephone Number
+  --mobile=STR          Mobile Telephone Number
+  --pager=STR           Pager Number
+  --fax=STR             Fax Number
+  --orgunit=STR         Org. Unit
+  --title=STR           Job Title
+  --manager=STR         Manager
+  --carlicense=STR      Car License
+  --sshpubkey=STR       SSH public key
+  --user-auth-type=['password', 'radius', 'otp']
+                        Types of supported user authentication
+  --class=STR           User category (semantics placed on this attribute are
+                        for local interpretation)
+  --radius=STR          RADIUS proxy configuration
+  --radius-username=STR
+                        RADIUS proxy username
+  --departmentnumber=STR
+                        Department Number
+  --employeenumber=STR  Employee Number
+  --employeetype=STR    Employee Type
+  --preferredlanguage=STR
+                        Preferred Language
+  --setattr=STR         Set an attribute to a name/value pair. Format is
+                        attr=value. For multi-valued attributes, the command
+                        replaces the values already present.
+  --addattr=STR         Add an attribute/value pair. Format is attr=value. The
+                        attribute must be part of the schema.
+  --delattr=STR         Delete an attribute/value pair. The option will be
+                        evaluated last, after all sets and adds.
+  --rights              Display the access rights of this entry (requires
+                        --all). See ipa man page for details.
+  --all                 Retrieve and print all attributes from the server.
+                        Affects command output.
+  --raw                 Print entries as stored on the server. Only affects
+                        output format.
+  --rename=STR          Rename the user object
+
+
+--------------------------------------------------------
+
+
+[root@fedora ~]# ipa -vv user_mod quarto_usuario --password
+ipa: INFO: trying https://fedora.ipateste.com.br/ipa/session/json
+Password:
+Enter Password again to verify:
+ipa: INFO: Forwarding 'user_mod' to json server 'https://fedora.ipateste.com.br/ipa/session/json'
+ipa: INFO: Request: {
+    "id": 0,
+    "method": "user_mod",
+    "params": [
+        [
+            "quarto_usuario"
+        ],
+        {
+            "all": false,
+            "no_members": false,
+            "random": false,
+            "raw": false,
+            "rights": false,
+            "userpassword": "147",
+            "version": "2.114"
+        }
+    ]
+}
+ipa: INFO: Response: {
+    "error": null,
+    "id": 0,
+    "principal": "admin@IPATESTE.COM.BR",
+    "result": {
+        "result": {
+            "gidnumber": [
+                "768600004"
+            ],
+            "givenname": [
+                "quatro"
+            ],
+            "has_keytab": true,
+            "has_password": true,
+            "homedirectory": [
+                "/home/quarto_usuario"
+            ],
+            "loginshell": [
+                "/bin/sh"
+            ],
+            "mail": [
+                "quarto_usuario@ipateste.com.br"
+            ],
+            "memberof_group": [
+                "ipausers"
+            ],
+            "nsaccountlock": false,
+            "sn": [
+                "Usu\u00e1rio"
+            ],
+            "uid": [
+                "quarto_usuario"
+            ],
+            "uidnumber": [
+                "768600004"
+            ]
+        },
+        "summary": "Modified user \"quarto_usuario\"",
+        "value": "quarto_usuario"
+    },
+    "version": "4.1.4"
+}
+------------------------------
+Modified user "quarto_usuario"
+------------------------------
+  User login: quarto_usuario
+  First name: quatro
+  Last name: Usuário
+  Home directory: /home/quarto_usuario
+  Login shell: /bin/sh
+  Email address: quarto_usuario@ipateste.com.br
+  UID: 768600004
+  GID: 768600004
+  Account disabled: False
+  Password: True
+  Member of groups: ipausers
+  Kerberos keys available: True
+[root@fedora ~]#
+
+
+--------------------------------------------------------
+
+
+[root@fedora ~]# ipa -vv user_mod tobias --principal-expiration="2015-08-16 01:01:01Z" --password   
+ipa: INFO: trying https://fedora.ipateste.com.br/ipa/session/json
+Password: 
+Enter Password again to verify: 
+ipa: INFO: Forwarding 'user_mod' to json server 'https://fedora.ipateste.com.br/ipa/session/json'
+ipa: INFO: Request: {
+    "id": 0, 
+    "method": "user_mod", 
+    "params": [
+        [
+            "tobias"
+        ], 
+        {
+            "all": false, 
+            "krbprincipalexpiration": {
+                "__datetime__": "20150816010101Z"
+            }, 
+            "no_members": false, 
+            "random": false, 
+            "raw": false, 
+            "rights": false, 
+            "userpassword": "147147147", 
+            "version": "2.114"
+        }
+    ]
+}
+ipa: INFO: Response: {
+    "error": null, 
+    "id": 0, 
+    "principal": "admin@IPATESTE.COM.BR", 
+    "result": {
+        "result": {
+            "gidnumber": [
+                "768600009"
+            ], 
+            "givenname": [
+                "Tobias"
+            ], 
+            "has_keytab": true, 
+            "has_password": true, 
+            "homedirectory": [
+                "/home/tobias"
+            ], 
+            "krbprincipalexpiration": [
+                {
+                    "__datetime__": "20150816010101Z"
+                }
+            ], 
+            "loginshell": [
+                "/bin/sh"
+            ], 
+            "mail": [
+                "tobias@ipateste.com.br"
+            ], 
+            "memberof_group": [
+                "ipausers"
+            ], 
+            "nsaccountlock": false, 
+            "sn": [
+                "Sette"
+            ], 
+            "uid": [
+                "tobias"
+            ], 
+            "uidnumber": [
+                "768600009"
+            ]
+        }, 
+        "summary": "Modified user \"tobias\"", 
+        "value": "tobias"
+    }, 
+    "version": "4.1.4"
+}
+----------------------
+Modified user "tobias"
+----------------------
+  User login: tobias
+  First name: Tobias
+  Last name: Sette
+  Home directory: /home/tobias
+  Login shell: /bin/sh
+  Kerberos principal expiration: 20150816010101Z
+  Email address: tobias@ipateste.com.br
+  UID: 768600009
+  GID: 768600009
+  Account disabled: False
+  Password: True
+  Member of groups: ipausers
+  Kerberos keys available: True
+
+
+--------------------------------------------------------
+
+
+[root@fedora ~]# ipa -vv user_mod tobias --first="testeaaaaaa"
+ipa: INFO: trying https://fedora.ipateste.com.br/ipa/session/json
+ipa: INFO: Forwarding 'user_mod' to json server 'https://fedora.ipateste.com.br/ipa/session/json'
+ipa: INFO: Request: {
+    "id": 0, 
+    "method": "user_mod", 
+    "params": [
+        [
+            "tobias"
+        ], 
+        {
+            "all": false, 
+            "givenname": "testeaaaaaa", 
+            "no_members": false, 
+            "random": false, 
+            "raw": false, 
+            "rights": false, 
+            "version": "2.114"
+        }
+    ]
+}
+ipa: INFO: Response: {
+    "error": null, 
+    "id": 0, 
+    "principal": "admin@IPATESTE.COM.BR", 
+    "result": {
+        "result": {
+            "gidnumber": [
+                "768600009"
+            ], 
+            "givenname": [
+                "testeaaaaaa"
+            ], 
+            "has_keytab": true, 
+            "has_password": true, 
+            "homedirectory": [
+                "/home/tobias"
+            ], 
+            "krbprincipalexpiration": [
+                {
+                    "__datetime__": "20150816010101Z"
+                }
+            ], 
+            "loginshell": [
+                "/bin/sh"
+            ], 
+            "mail": [
+                "tobias@ipateste.com.br"
+            ], 
+            "memberof_group": [
+                "ipausers"
+            ], 
+            "nsaccountlock": false, 
+            "sn": [
+                "Sette"
+            ], 
+            "uid": [
+                "tobias"
+            ], 
+            "uidnumber": [
+                "768600009"
+            ]
+        }, 
+        "summary": "Modified user \"tobias\"", 
+        "value": "tobias"
+    }, 
+    "version": "4.1.4"
+}
+----------------------
+Modified user "tobias"
+----------------------
+  User login: tobias
+  First name: testeaaaaaa
+  Last name: Sette
+  Home directory: /home/tobias
+  Login shell: /bin/sh
+  Kerberos principal expiration: 20150816010101Z
+  Email address: tobias@ipateste.com.br
+  UID: 768600009
+  GID: 768600009
+  Account disabled: False
+  Password: True
+  Member of groups: ipausers
+  Kerberos keys available: True
+[root@fedora ~]# 

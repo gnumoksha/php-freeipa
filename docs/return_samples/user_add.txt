@@ -1,0 +1,339 @@
+[root@fedora ~]# ipa help user_add
+Usage: ipa [global-options] user-add LOGIN [options]
+
+Add a new user.
+Options:
+  -h, --help            show this help message and exit
+  --first=STR           First name
+  --last=STR            Last name
+  --cn=STR              Full name
+  --displayname=STR     Display name
+  --initials=STR        Initials
+  --homedir=STR         Home directory
+  --gecos=STR           GECOS
+  --shell=STR           Login shell
+  --principal=STR       Kerberos principal
+  --principal-expiration=DATETIME
+                        Kerberos principal expiration
+  --email=STR           Email address
+  --password            Prompt to set the user password
+  --random              Generate a random user password
+  --uid=INT             User ID Number (system will assign one if not
+                        provided)
+  --gidnumber=INT       Group ID Number
+  --street=STR          Street address
+  --city=STR            City
+  --state=STR           State/Province
+  --postalcode=STR      ZIP
+  --phone=STR           Telephone Number
+  --mobile=STR          Mobile Telephone Number
+  --pager=STR           Pager Number
+  --fax=STR             Fax Number
+  --orgunit=STR         Org. Unit
+  --title=STR           Job Title
+  --manager=STR         Manager
+  --carlicense=STR      Car License
+  --sshpubkey=STR       SSH public key
+  --user-auth-type=['password', 'radius', 'otp']
+                        Types of supported user authentication
+  --class=STR           User category (semantics placed on this attribute are
+                        for local interpretation)
+  --radius=STR          RADIUS proxy configuration
+  --radius-username=STR
+                        RADIUS proxy username
+  --departmentnumber=STR
+                        Department Number
+  --employeenumber=STR  Employee Number
+  --employeetype=STR    Employee Type
+  --preferredlanguage=STR
+                        Preferred Language
+  --setattr=STR         Set an attribute to a name/value pair. Format is
+                        attr=value. For multi-valued attributes, the command
+                        replaces the values already present.
+  --addattr=STR         Add an attribute/value pair. Format is attr=value. The
+                        attribute must be part of the schema.
+  --noprivate           Don't create user private group
+  --all                 Retrieve and print all attributes from the server.
+                        Affects command output.
+  --raw                 Print entries as stored on the server. Only affects
+                        output format.
+
+
+--------------------------------------------------------
+
+
+[root@fedora ~]# ipa -vv user_add tobias --first="Tobias" --last="Sette" --email="tobias.sette@infobase.com.br"
+ipa: INFO: trying https://fedora.ipateste.com.br/ipa/json
+ipa: INFO: Forwarding 'user_add' to json server 'https://fedora.ipateste.com.br/ipa/json'
+ipa: INFO: Request: {
+    "id": 0, 
+    "method": "user_add", 
+    "params": [
+        [
+            "tobias"
+        ], 
+        {
+            "all": false, 
+            "cn": "Tobias Sette", 
+            "displayname": "Tobias Sette", 
+            "gecos": "Tobias Sette", 
+            "givenname": "Tobias", 
+            "initials": "TS", 
+            "krbprincipalname": "tobias@IPATESTE.COM.BR", 
+            "mail": [
+                "tobias.sette@infobase.com.br"
+            ], 
+            "no_members": false, 
+            "noprivate": false, 
+            "random": false, 
+            "raw": false, 
+            "sn": "Sette", 
+            "version": "2.114"
+        }
+    ]
+}
+ipa: INFO: Response: {
+    "error": null, 
+    "id": 0, 
+    "principal": "admin@IPATESTE.COM.BR", 
+    "result": {
+        "result": {
+            "cn": [
+                "Tobias Sette"
+            ], 
+            "displayname": [
+                "Tobias Sette"
+            ], 
+            "dn": "uid=tobias,cn=users,cn=accounts,dc=ipateste,dc=com,dc=br", 
+            "gecos": [
+                "Tobias Sette"
+            ], 
+            "gidnumber": [
+                "768600005"
+            ], 
+            "givenname": [
+                "Tobias"
+            ], 
+            "has_keytab": false, 
+            "has_password": false, 
+            "homedirectory": [
+                "/home/tobias"
+            ], 
+            "initials": [
+                "TS"
+            ], 
+            "ipauniqueid": [
+                "02d3c0cc-2b99-11e5-a68e-0800278b868f"
+            ], 
+            "krbprincipalname": [
+                "tobias@IPATESTE.COM.BR"
+            ], 
+            "loginshell": [
+                "/bin/sh"
+            ], 
+            "mail": [
+                "tobias.sette@infobase.com.br"
+            ], 
+            "memberof_group": [
+                "ipausers"
+            ], 
+            "mepmanagedentry": [
+                "cn=tobias,cn=groups,cn=accounts,dc=ipateste,dc=com,dc=br"
+            ], 
+            "objectclass": [
+                "ipaSshGroupOfPubKeys", 
+                "ipaobject", 
+                "mepOriginEntry", 
+                "person", 
+                "top", 
+                "ipasshuser", 
+                "inetorgperson", 
+                "organizationalperson", 
+                "krbticketpolicyaux", 
+                "krbprincipalaux", 
+                "inetuser", 
+                "posixaccount"
+            ], 
+            "sn": [
+                "Sette"
+            ], 
+            "uid": [
+                "tobias"
+            ], 
+            "uidnumber": [
+                "768600005"
+            ]
+        }, 
+        "summary": "Added user \"tobias\"", 
+        "value": "tobias"
+    }, 
+    "version": "4.1.4"
+}
+-------------------
+Added user "tobias"
+-------------------
+  User login: tobias
+  First name: Tobias
+  Last name: Sette
+  Full name: Tobias Sette
+  Display name: Tobias Sette
+  Initials: TS
+  Home directory: /home/tobias
+  GECOS: Tobias Sette
+  Login shell: /bin/sh
+  Kerberos principal: tobias@IPATESTE.COM.BR
+  Email address: tobias.sette@infobase.com.br
+  UID: 768600005
+  GID: 768600005
+  Password: False
+  Member of groups: ipausers
+  Kerberos keys available: False
+
+
+--------------------------------------------------------
+
+
+[root@fedora ~]# ipa -vv user_add tobias --first="Tobias" --last="Sette" --email="tobias.sette@infobase.com.br" --password
+ipa: INFO: trying https://fedora.ipateste.com.br/ipa/session/json
+Password: 
+Enter Password again to verify: 
+ipa: INFO: Forwarding 'user_add' to json server 'https://fedora.ipateste.com.br/ipa/session/json'
+ipa: INFO: Request: {
+    "id": 0, 
+    "method": "user_add", 
+    "params": [
+        [
+            "tobias"
+        ], 
+        {
+            "all": false, 
+            "cn": "Tobias Sette", 
+            "displayname": "Tobias Sette", 
+            "gecos": "Tobias Sette", 
+            "givenname": "Tobias", 
+            "initials": "TS", 
+            "krbprincipalname": "tobias@IPATESTE.COM.BR", 
+            "mail": [
+                "tobias.sette@infobase.com.br"
+            ], 
+            "no_members": false, 
+            "noprivate": false, 
+            "random": false, 
+            "raw": false, 
+            "sn": "Sette", 
+            "userpassword": "159951159", 
+            "version": "2.114"
+        }
+    ]
+}
+ipa: INFO: Response: {
+    "error": null, 
+    "id": 0, 
+    "principal": "admin@IPATESTE.COM.BR", 
+    "result": {
+        "result": {
+            "cn": [
+                "Tobias Sette"
+            ], 
+            "displayname": [
+                "Tobias Sette"
+            ], 
+            "dn": "uid=tobias,cn=users,cn=accounts,dc=ipateste,dc=com,dc=br", 
+            "gecos": [
+                "Tobias Sette"
+            ], 
+            "gidnumber": [
+                "768600006"
+            ], 
+            "givenname": [
+                "Tobias"
+            ], 
+            "has_keytab": true, 
+            "has_password": true, 
+            "homedirectory": [
+                "/home/tobias"
+            ], 
+            "initials": [
+                "TS"
+            ], 
+            "ipauniqueid": [
+                "3874e152-2b99-11e5-8626-0800278b868f"
+            ], 
+            "krbextradata": [
+                {
+                    "__base64__": "AALdcqdVcm9vdC9hZG1pbkBJTkZPQkFTRVRFU1RFLkNPTS5CUgA="
+                }
+            ], 
+            "krblastpwdchange": [
+                {
+                    "__datetime__": "20150716090117Z"
+                }
+            ], 
+            "krbpasswordexpiration": [
+                {
+                    "__datetime__": "20150716090117Z"
+                }
+            ], 
+            "krbprincipalname": [
+                "tobias@IPATESTE.COM.BR"
+            ], 
+            "loginshell": [
+                "/bin/sh"
+            ], 
+            "mail": [
+                "tobias.sette@infobase.com.br"
+            ], 
+            "memberof_group": [
+                "ipausers"
+            ], 
+            "mepmanagedentry": [
+                "cn=tobias,cn=groups,cn=accounts,dc=ipateste,dc=com,dc=br"
+            ], 
+            "objectclass": [
+                "ipaSshGroupOfPubKeys", 
+                "ipaobject", 
+                "mepOriginEntry", 
+                "person", 
+                "top", 
+                "ipasshuser", 
+                "inetorgperson", 
+                "organizationalperson", 
+                "krbticketpolicyaux", 
+                "krbprincipalaux", 
+                "inetuser", 
+                "posixaccount"
+            ], 
+            "sn": [
+                "Sette"
+            ], 
+            "uid": [
+                "tobias"
+            ], 
+            "uidnumber": [
+                "768600006"
+            ]
+        }, 
+        "summary": "Added user \"tobias\"", 
+        "value": "tobias"
+    }, 
+    "version": "4.1.4"
+}
+-------------------
+Added user "tobias"
+-------------------
+  User login: tobias
+  First name: Tobias
+  Last name: Sette
+  Full name: Tobias Sette
+  Display name: Tobias Sette
+  Initials: TS
+  Home directory: /home/tobias
+  GECOS: Tobias Sette
+  Login shell: /bin/sh
+  Kerberos principal: tobias@IPATESTE.COM.BR
+  Email address: tobias.sette@infobase.com.br
+  UID: 768600006
+  GID: 768600006
+  Password: True
+  Member of groups: ipausers
+  Kerberos keys available: True

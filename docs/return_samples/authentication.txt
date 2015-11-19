@@ -1,0 +1,41 @@
+Retornos http 401:
+
+
+  // Conta travada http://web.mit.edu/kerberos/krb5-1.13/doc/admin/lockout.html
+
+  HTTP/1.1 401 Unauthorized
+  Date: Sun, 07 Jun 2015 14:13:41 GMT
+  Server: Apache/2.4.12 (Fedora) mod_auth_gssapi/1.1.0 mod_nss/2.4.10 NSS/3.17.4 Basic ECC mod_wsgi/4.4.8 Python/2.7.9
+  X-IPA-Rejection-Reason: invalid-password
+  Transfer-Encoding: chunked
+  Content-Type: text/html; charset=utf-8
+
+  <html>
+  <head>
+  <title>401 Unauthorized</title>
+  </head>
+  <body>
+  <h1>Invalid Authentication</h1>
+  <p>
+  <strong>kinit: Clients credentials have been revoked while getting initial credentials
+  </strong>
+  </p>
+  </body>
+  </html><br/>
+
+---------------------------
+
+  // usuario/senha incorretos
+  <html>
+  <head>
+  <title>401 Unauthorized</title>
+  </head>
+  <body>
+  <h1>Invalid Authentication</h1>
+  <p>
+  <strong>kinit: Preauthentication failed while getting initial credentials
+  </strong>
+  </p>
+  </body>
+  </html>
+  */

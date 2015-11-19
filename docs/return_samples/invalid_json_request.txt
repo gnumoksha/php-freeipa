@@ -1,0 +1,15 @@
+Json da requisicao:
+{"id":0,"method":"ping","params:":[[],{"version":"2.114"}]}
+
+Json do retorno:
+{
+    "error": {
+        "code": 909,
+        "message": "Invalid JSON-RPC request: Request is missing \"params\"",
+        "name": "JSONError"
+    },
+    "id": null,
+    "principal": "quarto_usuario@IPATESTE.COM.BR",
+    "result": null,
+    "version": "4.1.4"
+}

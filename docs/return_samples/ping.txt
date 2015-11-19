@@ -1,0 +1,25 @@
+[root@fedora ~]# ipa -vv ping
+ipa: INFO: trying https://fedora.ipateste.com.br/ipa/json
+ipa: INFO: Forwarding 'ping' to json server 'https://fedora.ipateste.com.br/ipa/json'
+ipa: INFO: Request: {
+    "id": 0,
+    "method": "ping",
+    "params": [
+        [],
+        {
+            "version": "2.114"
+        }
+    ]
+}
+ipa: INFO: Response: {
+    "error": null,
+    "id": 0,
+    "principal": "admin@IPATESTE.COM.BR",
+    "result": {
+        "summary": "IPA server version 4.1.4. API version 2.114"
+    },
+    "version": "4.1.4"
+}
+-------------------------------------------
+IPA server version 4.1.4. API version 2.114
+-------------------------------------------
