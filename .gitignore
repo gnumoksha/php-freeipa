@@ -1,4 +1,4 @@
 composer.phar
 vendor/
-certs/
 /nbproject/private/
+composer.lock

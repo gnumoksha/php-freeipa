@@ -1,17 +1,21 @@
 <?php
-// FreeIPA library for PHP
-// Copyright (C) 2015 Tobias Sette <contato@tobias.ws>
-//
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
-// GNU General Public License for more details.
-// You should have received a copy of the GNU General Public License
-// along with this program.If not, see <http://www.gnu.org/licenses/>.
+/**
+FreeIPA library for PHP
+Copyright (C) 2015  Tobias Sette <contato@tobias.ws>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 
 /**
@@ -24,18 +28,18 @@ require_once( 'snippet_debug.php' );
 require_once( 'functions.utils.php' );
 
 // Variáveis mais utilizadas ao longo do código
-$host          = 'fedora.ipateste.com.br';
+$host          = 'ipa.demo1.freeipa.org';
 // O certificado pode ser obtido em https://$host/ipa/config/ca.crt
-$certificado   = getcwd() ."/../certs/testes_ipa.crt";
+$certificado   = getcwd() ."/../certs/ipa.demo1.freeipa.org_ca.crt";
 $usuario       = 'admin';
-$senha         = 'senhaAqui';
+$senha         = 'Secret123';
 $procurar      = 'teste';
 $random        = rand( 1, 9999 );
 
 // Instancia a classe
-require_once( '../src/APIAccess.php' );
+require_once( '../bootstrap.php' );
 try {
-  $ipa = new \FreeIPA\APIAccess( $host, $certificado );
+  $ipa = new \FreeIPA\APIAccess\Group( $host, $certificado );
 } catch ( Exception $e ) {
   _print( "[instancia] Excessao. Mensagem: {$e->getMessage()} Código: {$e->getCode()}" );
   die();
@@ -44,21 +48,21 @@ try {
 // Se você quiser forçar o uso de uma determinada versão da API (por exemplo: após
 // testar o código e quiser definir que ele não trabalhe com versões diferentes do servidor),
 // defina uma versão desta API.
-//$ipa->setVersaoAPI( '2.112' );
+//$ipa->setAPIVersion( '2.112' );
 
 // Neste momento você pode definir parâmetros de debug para o cURL.
 // Note que este método substitui o iniciarCurl() que é chamado automaticamente
 // pela classe
-//$ipa->debugarCurl();
+//$ipa->debugCurl();
 
 // É possível usar o manipulador (handler do curl)
-//$ipa->iniciarCurl();
-//curl_exec( $ipa->manipulador_curl );
+//$ipa->startCurl();
+//curl_exec($ipa->curl_handler);
 
 
 // Faz autenticação
 try {
-  $ret_aut = $ipa->autenticar( $usuario, $senha );
+  $ret_aut = $ipa->authenticate( $usuario, $senha );
   if ( TRUE === $ret_aut['autenticado'] ) { // usuário está autenticado
     _print( $ret_aut['mensagem'] );
   }
@@ -82,7 +86,7 @@ try {
 // Faz um teste de conexão com o servidor
 _print( 'Fazendo um ping' );
 try {
-  $ret_ping = $ipa->pingar();
+  $ret_ping = $ipa->pingToServer();
   if ( $ret_ping ) {
     _print( 'Pingado!' );
   } else {
@@ -97,7 +101,7 @@ try {
 // Obtem informações do usuário
 _print( "Mostrando o usuario \"$usuario\"" );
 try {
-  $ret_usuario = $ipa->getUsuario( $usuario );
+  $ret_usuario = $ipa->getUser( $usuario );
   if ( TRUE == $ret_usuario ) {
     _print( 'Usuario encontrado' );
     var_dump( $ret_usuario );
@@ -113,7 +117,7 @@ try {
 // Procurando um usuário através de um método genérico
 _print( "Procurando usuários cujo login/nome contenham \"$procurar\"" );
 try {
-  $ret_procura_usuarios = $ipa->procurarUsuario( array( $procurar ) );
+  $ret_procura_usuarios = $ipa->findUser( array( $procurar ) );
   if ( $ret_procura_usuarios ) {
     $t = count( $ret_procura_usuarios );
     print "Encontrado $t usuários. Nomes: ";
@@ -134,7 +138,7 @@ try {
 // Veja documentação do método procurarUsuarioBy() !
 _print( "Procurando usuarios cujo login seja \"$procurar\"" );
 try {
-	$procura_usuario_por = $ipa->procurarUsuarioBy( 'uid', $procurar ); // login
+	$procura_usuario_por = $ipa->findUserBy( 'uid', $procurar ); // login
 	//$procura_usuario_por = $ipa->procurarUsuarioBy( 'mail', 'teste@ipateste.com.br' ); // email
 	//$procura_usuario_por = $ipa->procurarUsuarioBy( 'givenname', $procurar ); // primeiro nome
 	//$procura_usuario_por = $ipa->procurarUsuarioBy( 'cn', 'Administrator' ); // nome completo
