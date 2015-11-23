@@ -3,9 +3,9 @@ A PHP library for access FreeIPA
 
 [![Build Status](https://travis-ci.org/gnumoksha/php-freeipa.svg)](https://travis-ci.org/gnumoksha/php-freeipa)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/gnumoksha/php-freeipa/badges/quality-score.png)](https://scrutinizer-ci.com/g/gnumoksha/php-freeipa/)
-[![License](https://poser.pugx.org/gnumoksha/php-freeipa/license.svg)](https://packagist.org/packages/nfephp-org/nfephp)
-[![Latest Stable Version](https://poser.pugx.org/gnumoksha/php-freeipa/v/stable.svg)](https://packagist.org/packages/nfephp-org/nfephp)
-2
+[![License](https://poser.pugx.org/gnumoksha/php-freeipa/license)](https://packagist.org/packages/gnumoksha/php-freeipa)
+[![Latest Stable Version](https://poser.pugx.org/gnumoksha/php-freeipa/v/stable)](https://packagist.org/packages/gnumoksha/php-freeipa)
+
 
 ## Quick start guide
 
