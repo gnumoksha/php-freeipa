@@ -17,6 +17,9 @@ You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+// Dependencies:
+//require_once('Base.php');
+
 /**
  * Classes for access to FreeIPA API
  * @since 0.1
@@ -33,40 +36,40 @@ namespace FreeIPA\APIAccess;
  * @since 0.4
  * @version 0.1
  */
-class User extends \FreeIPA\APIAccess\Core
+class User extends \FreeIPA\APIAccess\Base
 {
  
     /**
      * Procura usuários através do método user_find e retorna suas informações
-     * Se uma string for especificada em $argumentos, o servidor irá fazer uma busca genérica
+     * Se uma string for especificada em $args, o servidor irá fazer uma busca genérica
      * procurando a string nos campos login, first_name e last_name.
      *
-     * @param array $argumentos argumentos para o método user_find.
-     * @param array $opcoes parâmetros para o método user_find
+     * @param array $args argumentos para o método user_find.
+     * @param array $options parâmetros para o método user_find
      * @return array|bool um indice para cada resultado, em cada resultado um objeto. OU false se não encontrar o usuário
      * @since 0.1
      * @throws \Exception se houver erro no retorno json
      * @see ../docs/return_samples/user_find.txt
      * @see buildRequest()
      */
-    public function findUser($argumentos = array(), $opcoes = array())
+    public function find($args = array(), $options = array())
     {
-        if (!is_array($argumentos) || !is_array($opcoes)) {
+        if (!is_array($args) || !is_array($options)) {
             return false;
         }
 
         // Estas opcoes foram obtidos com base nos parâmetros definidos pelo comando ipa -vv user-find --all
-        $opcoes_padrao = array(
+        $default_options = array(
             'all' => true,
             'no_members' => false,
             'pkey_only' => false,
             'raw' => false,
             'whoami' => false,
         );
-        $opcoes_final = array_merge($opcoes_padrao, $opcoes);
+        $final_options = array_merge($default_options, $options);
 
-        $retorno_requisicao = $this->buildRequest('user_find', $argumentos, $opcoes_final); // retorna json e codigo http da resposta
-        $json = $retorno_requisicao[0];
+        $return_request = $this->getConnection()->buildRequest('user_find', $args, $final_options); // retorna json e codigo http da resposta
+        $json = $return_request[0];
         $json_string = json_encode($json);
 
         if (empty($json->result) || !isset($json->result->count)) {
@@ -92,61 +95,62 @@ class User extends \FreeIPA\APIAccess\Core
      *  'uid' => nome de usuário
      *  'uidnumber' => identificador único do usuário
      *
-     * @param array $campo nome do campo. Ver exemplos acima
-     * @param string $valor valor para $campo
+     * @param array $field nome do campo. Ver exemplos acima
+     * @param string $value valor para $field
      * @return array|bool um indice para cada resultado, em cada resultado um objeto. OU false se não encontrar o usuário
      * @since 0.2
      * @see findUser()
      */
-    public function findUserBy($campo = null, $valor = null)
+    public function findBy($field = null, $value = null)
     {
-        if (!$campo || !$valor) {
+        if (!$field || !$value) {
             return false;
         }
 
-  //    $opcoes = array( $campo_ipa => $valor );
-        $opcoes = array($campo => $valor);
-        return $this->findUser(array(), $opcoes);
+  //    $options = array( $field_ipa => $value );
+        $options = array($field => $value);
+        return $this->find(array(), $options);
     }
 
     /**
      * Obtém os dados de um usuário identificado pelo seu login através
      * do método user_show da API.
      *
-     * @param string|array $parametros login do usuário ou array com parâmetros para o método user_show
-     * @param array $opcoes opções para o método user_show
+     * @param string|array $params login do usuário ou array com parâmetros para o método user_show
+     * @param array $options opções para o método user_show
      * @return array|bool um indice para cada resultado, em cada resultado um objeto. OU false se não encontrar o usuário
      * @since 0.1
-     * @since 0.2 $parametros pode ser uma string
+     * @since 0.2 $params pode ser uma string
      * @throws \Exception se houver erro no retorno json
      * @see ../docs/return_samples/user_show.txt
      * @see buildRequest()
      */
-    public function getUser($parametros = null, $opcoes = array())
+    public function get($params = null, $options = array())
     {
-        if (!is_array($opcoes)) {
+        if (!is_array($options)) {
             return false;
         }
 
-        if (is_string($parametros)) {
-            $parametros_final = array($parametros);
-        } else if (is_array($parametros)) {
-            $parametros_final = $parametros;
+        if (is_string($params)) {
+            $final_params = array($params);
+        } else if (is_array($params)) {
+            $final_params = $params;
         } else {
             return false;
         }
 
         // Estas opcoes foram obtidos com base nos parâmetros definidos pelo comando [root@fedora ~]# ipa -vv user-show admin
-        $opcoes_padrao = array(
+        $default_options = array(
             'all' => true,
             'no_members' => false,
             'raw' => false,
             'rights' => false,
         );
-        $opcoes_final = array_merge($opcoes, $opcoes_padrao);
+        $final_options = array_merge($options, $default_options);
 
-        $retorno_requisicao = $this->buildRequest('user_show', $parametros_final, $opcoes_final, false); // retorna json e codigo http da resposta
-        $json = $retorno_requisicao[0];
+        // retorna json e codigo http da resposta
+        $return_request = $this->getConnection()->buildRequest('user_show', $final_params, $final_options, false);
+        $json = $return_request[0];
         $json_string = json_encode($json);
 
         if (!empty($json->error) && strtolower($json->error->name) == 'notfound') {
@@ -168,7 +172,7 @@ class User extends \FreeIPA\APIAccess\Core
 
     /**
      * Adiciona usuário no FreeIPA
-     * Principais campos em $dados:
+     * Principais campos em $data:
      *  'givenname' => primeiro nome
      *  'sn' => sobrenome
      *  'cn' => nome completo
@@ -176,41 +180,42 @@ class User extends \FreeIPA\APIAccess\Core
      *  'uid' => nome de usuário (login). Campo obrigatório
      *  'userpassword' => senha do usuario
      * 
-     * @param array $dados contém as informações do usuário. Ver exemplo acima
+     * @param array $data contém as informações do usuário. Ver exemplo acima
      * @return object|bool Objeto contendo os dados do usuário criado ou false em caso de erro
      * @since 0.2
      * @see buildRequest()
      */
-    public function adicionarUsuario($dados)
+    public function add($data)
     {
-        if (!$dados || !isset($dados['uid']) || empty($dados['uid'])) {
+        if (!$data || !isset($data['uid']) || empty($data['uid'])) {
             return false;
         }
 
-        // Estas opcoes foram obtidos com base nos parâmetros definidos pelo comando ipa -vv user_add tobias --first="Tobias" --last="Sette" --email="contato@tobias.ws" --password
-        $argumentos = array($dados['uid']);
-        $opcoes_padrao = array(
+        // Estas opcoes foram obtidos com base nos parâmetros definidos pelo comando
+        // ipa -vv user_add tobias --first="Tobias" --last="Sette" --email="contato@tobias.ws" --password
+        $args = array($data['uid']);
+        $default_options = array(
             'all' => false,
             'no_members' => false,
             'noprivate' => false,
             'random' => false,
             'raw' => false,
         );
-        unset($dados['uid']);
-        $opcoes_final = array_merge($opcoes_padrao, $dados);
+        unset($data['uid']);
+        $final_options = array_merge($default_options, $data);
 
         // O método buildRequest() já verifica o campo 'error', que é o único relevante para este método da API
-        $retorno_requisicao = $this->buildRequest('user_add', $argumentos, $opcoes_final); // retorna json e codigo http da resposta
-        if (!$retorno_requisicao) {
+        $return_request = $this->getConnection()->buildRequest('user_add', $args, $final_options); // retorna json e codigo http da resposta
+        if (!$return_request) {
             return false;
         }
 
-        return $retorno_requisicao[0]->result->result;
+        return $return_request[0]->result->result;
     }
 
     /**
      * Altera os dados de um usuário no FreeIPA.
-     * Principais campos em $dados:
+     * Principais campos em $data:
      *  'givenname' => primeiro nome
      *  'sn' => sobrenome
      *  'cn' => nome completo
@@ -224,7 +229,7 @@ class User extends \FreeIPA\APIAccess\Core
      * Se a senha for invalidada o usuário não conseguirá fazer login através do método authenticate()
      *
      * @param string $login login (uid) do usuário que será alterado.
-     * @param array $dados contém as informações que serão alteradas. Ver exemplo acima
+     * @param array $data contém as informações que serão alteradas. Ver exemplo acima
      * @return object|bool Objeto contendo os dados do usuário criado ou false em caso de erro
      * @since 0.2
      * @see ../docs/return_samples/user_mod.txt
@@ -233,30 +238,30 @@ class User extends \FreeIPA\APIAccess\Core
      * @link https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Identity_Management_Guide/changing-pwds.html
      * @link http://docs.fedoraproject.org/en-US/Fedora/17/html/FreeIPA_Guide/pwd-expiration.html
      */
-    public function modificarUsuario($login = null, $dados = array())
+    public function modify($login = null, $data = array())
     {
-        if (!$login || !$dados) {
+        if (!$login || !$data) {
             return false;
         }
 
         // Estas opcoes foram obtidos com base nos parâmetros definidos pelo comando ipa -vv user_mod tobias --first="testeaaaaaa"
-        $argumentos = array($login);
-        $opcoes_padrao = array(
+        $args = array($login);
+        $default_options = array(
             'all' => false,
             'no_members' => false,
             'random' => false,
             'raw' => false,
             'rights' => false,
         );
-        $opcoes_final = array_merge($opcoes_padrao, $dados);
+        $final_options = array_merge($default_options, $data);
 
         // O método buildRequest() já verifica o campo 'error', que é o único relevante para este método da API
-        $retorno_requisicao = $this->buildRequest('user_mod', $argumentos, $opcoes_final); // retorna json e codigo http da resposta
-        if (!$retorno_requisicao) {
+        $return_request = $this->getConnection()->buildRequest('user_mod', $args, $final_options); // retorna json e codigo http da resposta
+        if (!$return_request) {
             return false;
         }
 
-        return $retorno_requisicao[0]->result->result;
+        return $return_request[0]->result->result;
     }
     
 }

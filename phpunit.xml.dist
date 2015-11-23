@@ -7,12 +7,17 @@
          convertWarningsToExceptions="true"
          processIsolation="false"
          stopOnFailure="false"
+         stopOnIncomplete="true"
          syntaxCheck="false"
-         verbose="false"
+         verbose="true"
          bootstrap="./bootstrap.php">
     <testsuites>
         <testsuite name="php-freeIPA Test Suite">
-            <directory suffix="Test.php">./tests</directory>
+            <!--<directory suffix="Test.php">./tests</directory>-->
+            <file>./tests/APIAccess/MainTest.php</file>
+            <file>./tests/APIAccess/ConnectionTest.php</file>
+            <file>./tests/APIAccess/UserTest.php</file>
+            <file>./tests/APIAccess/GroupTest.php</file>
         </testsuite>
     </testsuites>
     <filter>

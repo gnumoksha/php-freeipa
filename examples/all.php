@@ -17,233 +17,222 @@ You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
 /**
- * Este arquivo contém exemplos de utilização da biblioteca de integração com o FreeIPA
+ * This file contains examples of utilization of this library
  */
 
+ini_set( 'display_errors', 1);
+ini_set( 'track_errors',   1);
+ini_set( 'html_errors',    1);
+error_reporting( E_ALL );
 
-// Pedações de código úteis apenas para este arquivo
-require_once( 'snippet_debug.php' );
-require_once( 'functions.utils.php' );
+require_once( 'functions_utils.php' );
 
-// Variáveis mais utilizadas ao longo do código
-$host          = 'ipa.demo1.freeipa.org';
-// O certificado pode ser obtido em https://$host/ipa/config/ca.crt
-$certificado   = getcwd() ."/../certs/ipa.demo1.freeipa.org_ca.crt";
-$usuario       = 'admin';
-$senha         = 'Secret123';
-$procurar      = 'teste';
-$random        = rand( 1, 9999 );
+$host = 'ipa.demo1.freeipa.org';
+// The certificate can be obtained in https://$host/ipa/config/ca.crt
+$certificate = __DIR__ . "/../certs/ipa.demo1.freeipa.org_ca.crt";
+$user = 'admin';
+$password = 'Secret123';
+$search = 'test';
+$random = rand(1, 9999);
 
-// Instancia a classe
-require_once( '../bootstrap.php' );
+require_once('../bootstrap.php');
 try {
-  $ipa = new \FreeIPA\APIAccess\Group( $host, $certificado );
-} catch ( Exception $e ) {
-  _print( "[instancia] Excessao. Mensagem: {$e->getMessage()} Código: {$e->getCode()}" );
-  die();
-}
-
-// Se você quiser forçar o uso de uma determinada versão da API (por exemplo: após
-// testar o código e quiser definir que ele não trabalhe com versões diferentes do servidor),
-// defina uma versão desta API.
-//$ipa->setAPIVersion( '2.112' );
-
-// Neste momento você pode definir parâmetros de debug para o cURL.
-// Note que este método substitui o iniciarCurl() que é chamado automaticamente
-// pela classe
-//$ipa->debugCurl();
-
-// É possível usar o manipulador (handler do curl)
-//$ipa->startCurl();
-//curl_exec($ipa->curl_handler);
-
-
-// Faz autenticação
-try {
-  $ret_aut = $ipa->authenticate( $usuario, $senha );
-  if ( TRUE === $ret_aut['autenticado'] ) { // usuário está autenticado
-    _print( $ret_aut['mensagem'] );
-  }
-  else {
-    _print( $ret_aut['mensagem'] );
-    // Para debug:
-    var_dump($ret_aut);
-    // Para debug mais detalhado:
-    //$ret_curl = $ipa->getErroCurl();
-    //print "Usuario nao autenticado. Retorno eh: <br/>\n";
-    //print "Retorno do curl: " . $ret_curl[0] . " (" . $ret_curl[1] . ")<br/>\n";
-    //print "String de retorno do curl: " . $ipa->getRetornoCurl() . "<br/>\n";
+    $ipa = new \FreeIPA\APIAccess\Main($host, $certificate);
+    //$ipa->connection($host, $certificate);
+} catch (Exception $e) {
+    _print("[instance] Exception. Message: {$e->getMessage()} Code: {$e->getCode()}");
     die();
-  }
-} catch ( Exception $e ) {
-  _print( "[login] Excessao. Mensagem: {$e->getMessage()} Código: {$e->getCode()}" );
-  die();
 }
 
+// If you wish to force the use of one specific version of API (for example:
+// after make tests in the code and define that he does not work with different
+// versions).
+//$ipa->connection()->setAPIVersion('2.112');
 
-// Faz um teste de conexão com o servidor
-_print( 'Fazendo um ping' );
+// Make authentication
 try {
-  $ret_ping = $ipa->pingToServer();
-  if ( $ret_ping ) {
-    _print( 'Pingado!' );
-  } else {
-    _print( 'Erro no ping!' );
-  }
-} catch ( Exception $e ) {
-  _print( "[ping] Excessao. Mensagem: {$e->getMessage()} Código: {$e->getCode()}" );
-  die();
-}
-
-
-// Obtem informações do usuário
-_print( "Mostrando o usuario \"$usuario\"" );
-try {
-  $ret_usuario = $ipa->getUser( $usuario );
-  if ( TRUE == $ret_usuario ) {
-    _print( 'Usuario encontrado' );
-    var_dump( $ret_usuario );
-  } else {
-    _print( "Usuario $usuario nao foi encontrado");
-  }
-} catch ( Exception $e ) {
-  _print( "Mensagem: {$e->getMessage()} Código: {$e->getCode()}" );
-  die();
-}
-
-
-// Procurando um usuário através de um método genérico
-_print( "Procurando usuários cujo login/nome contenham \"$procurar\"" );
-try {
-  $ret_procura_usuarios = $ipa->findUser( array( $procurar ) );
-  if ( $ret_procura_usuarios ) {
-    $t = count( $ret_procura_usuarios );
-    print "Encontrado $t usuários. Nomes: ";
-    for ($i=0; $i<$t; $i++) {
-      print $ret_procura_usuarios[$i]->uid[0] . " | " ;
-    }
-    _print();
-  } else {
-    _print( 'Nenhum usuário encontrado' );
-  }
-} catch ( Exception $e ) {
-  _print( "[consulta usuario] Excessao. Mensagem: {$e->getMessage()} Código: {$e->getCode()}" );
-  die();
-}
-
-
-// Procura um usuario atraves de um campo identificador
-// Veja documentação do método procurarUsuarioBy() !
-_print( "Procurando usuarios cujo login seja \"$procurar\"" );
-try {
-	$procura_usuario_por = $ipa->findUserBy( 'uid', $procurar ); // login
-	//$procura_usuario_por = $ipa->procurarUsuarioBy( 'mail', 'teste@ipateste.com.br' ); // email
-	//$procura_usuario_por = $ipa->procurarUsuarioBy( 'givenname', $procurar ); // primeiro nome
-	//$procura_usuario_por = $ipa->procurarUsuarioBy( 'cn', 'Administrator' ); // nome completo
-    //$procura_usuario_por = $ipa->procurarUsuarioBy( 'in_group', 'admins' ); // usuário está no grupo
-    if ( $procura_usuario_por ) {
-      _print( 'Usuários encontrados' );
-      var_dump($procura_usuario_por);
+    $ret_aut = $ipa->connection()->authenticate($user, $password);
+    if (TRUE === $ret_aut['authenticate']) { // user is authenticate
+        _print($ret_aut['message']);
     } else {
-      _print( 'Nenhum usuário encontrado' );
+        _print($ret_aut['message']);
+        // For debbug
+        var_dump($ret_aut);
+        // For more details:
+        //$ret_curl = $ipa->connection()->getCurlError();
+        //print "User is not authenticated. Return is: <br/>" . PHP_EOL;
+        //print "cURL: " . $ret_curl[0] . " (" . $ret_curl[1] . ")<br/>" . PHP_EOL;
+        //print "cURL string: " . $ipa->connection()->getCurlReturn() . "<br/>\n";
+        die();
     }
-} catch ( \Exception $e ) {
-	_print( "[procura usuario por] Excessao. Mensagem: {$e->getMessage()} Código: {$e->getCode()}" );
-	_print( "Requisicao json eh {$ipa->getJsonRequest()}" );
-	_print( "Resposta json eh {$ipa->getJsonResponse()}" );
-	die();
+} catch (Exception $e) {
+    _print("[login] Exception. Message: {$e->getMessage()} Code: {$e->getCode()}");
+    die();
 }
 
 
-// Insere um novo usuario
-$dados_novo_usuario =  array (
-  'givenname'    => 'Richardi',
-  'sn'           => 'Stallman',
-  'uid'          => "stallman$random",
-  'mail'         => "rms$random@fsf.org",
-  'userpassword' => $senha,
+// Make a connection test with the server
+_print('Ping');
+try {
+    $ret_ping = $ipa->connection()->ping();
+    if ($ret_ping) {
+        _print('Done!');
+    } else {
+        _print('Error in ping!');
+    }
+} catch (Exception $e) {
+    _print("[ping] Exception. Message: {$e->getMessage()} Code: {$e->getCode()}");
+    die();
+}
+
+
+// Get User information
+_print("Showing o user \"$user\"");
+try {
+    $ret_user = $ipa->user()->get($user);
+    if (TRUE == $ret_user) {
+        _print('User found');
+        var_dump($ret_user);
+    } else {
+        _print("User $user not found");
+    }
+} catch (Exception $e) {
+    _print("Message: {$e->getMessage()} Code: {$e->getCode()}");
+    die();
+}
+
+
+// Searching a user
+_print("Searching users with login/name contains contenham \"$search\"");
+try {
+    $ret_search_users = $ipa->user()->find(array($search));
+    if ($ret_search_users) {
+        $t = count($ret_search_users);
+        print "Found $t usuários. Names: ";
+        for ($i = 0; $i < $t; $i++) {
+            print $ret_search_users[$i]->uid[0] . " | ";
+        }
+        _print();
+    } else {
+        _print('No users found');
+    }
+} catch (Exception $e) {
+    _print("[searching user] Exception. Message: {$e->getMessage()} Code: {$e->getCode()}");
+    die();
+}
+
+
+// Procura um user atraves de um campo identificador
+// See documentarion of method \FreeIPA\APIAccess\User->findBy() !
+_print("Searching for users with login \"$search\"");
+try {
+    $search_user_by = $ipa->user()->findBy('uid', 'admin'); // login
+    //$search_user_by = $ipa->user()->findBy('mail', 'teste@ipatest.com'); // email
+    //$search_user_by = $ipa->user()->findBy('givenname', $search); // first name
+    //$search_user_by = $ipa->user()->findBy('cn', 'Administrator'); // full name
+    //$search_user_by = $ipa->user()->findBy('in_group', 'admins'); // user in group
+    if ($search_user_by) {
+        _print('Users found');
+        var_dump($search_user_by);
+    } else {
+        _print('No users found');
+    }
+} catch (\Exception $e) {
+    _print("[search user by] Exception. Message: {$e->getMessage()} Code: {$e->getCode()}");
+    _print("Json request is {$ipa->connection()->getJsonRequest()}");
+    _print("Json response is {$ipa->connection()->getJsonResponse()}");
+    die();
+}
+
+
+// Insert a new user
+$new_user_data = array(
+    'givenname' => 'Richardi',
+    'sn' => 'Stallman',
+    'uid' => "stallman$random",
+    'mail' => "rms$random@fsf.org",
+    'userpassword' => $password,
 );
-_print( "Adicionando o usuário {$dados_novo_usuario['uid']} com a senha \"$senha\"" );
+_print("Adding new user {$new_user_data['uid']} whith password \"$password\"");
 try {
-  $adicionar_usuario = $ipa->adicionarUsuario( $dados_novo_usuario );
-  if ( $adicionar_usuario ) {
-    _print( 'Usuario adicionado' );
-  } else {
-    _print( 'Erro ao adicionar o usuario' );
-  }
-} catch ( \Exception $e ) {
-  _print( "[criando usuario] Mensagem: {$e->getMessage()} Código: {$e->getCode()}" );
-  die();
+    $add_user = $ipa->user()->add($new_user_data);
+    if ($add_user) {
+        _print('User added');
+    } else {
+        _print('Error while adding user');
+    }
+} catch (\Exception $e) {
+    _print("[insert new user] Message: {$e->getMessage()} Code: {$e->getCode()}");
+    die();
 }
 
 
-// Altera o usuario cadastrado anteriormente
-$dados_alterar_usuario = array(
-  'givenname' => 'Richard',
+// Changes the previously created user
+$modify_user_data = array(
+    'givenname' => 'Richard',
 );
-_print( "Alterando o usuario {$dados_novo_usuario['uid']}" );
+_print("Modifying the user {$new_user_data['uid']}");
 try {
-  $alterar_usuario = $ipa->modificarUsuario( $dados_novo_usuario['uid'], $dados_alterar_usuario );
-  if ( $alterar_usuario ) {
-    _print( 'Usuario alterado' );
-  } else {
-    _print( 'Erro ao alterar o usuario' );
-  }
-} catch ( \Exception $e ) {
-  _print( "[alterando usuario] Mensagem: {$e->getMessage()} Código: {$e->getCode()}" );
-  die();
+    $modify_user = $ipa->user()->modify($new_user_data['uid'], $modify_user_data);
+    if ($modify_user) {
+        _print('User modified');
+    } else {
+        _print('Error while modifying user');
+    }
+} catch (\Exception $e) {
+    _print("[modifying user] Message: {$e->getMessage()} Code: {$e->getCode()}");
+    die();
 }
 
 
-// Altera a senha do usuario cadastrado anteriormente
-$dados_alterar_usenha_suario = array(
-  'userpassword' => 'batatinha123',
+// Change the password for the previously created user
+$data_change_pass = array(
+    'userpassword' => 'linus123',
 );
-_print( "Alterando senha do usuario {$dados_novo_usuario['uid']} para {$dados_alterar_usenha_suario['userpassword']}" );
+_print("Changing the password for user {$new_user_data['uid']} to {$data_change_pass['userpassword']}");
 try {
-  $alterar_senha_usuario = $ipa->modificarUsuario( $dados_novo_usuario['uid'], $dados_alterar_usenha_suario );
-  if ( $alterar_senha_usuario ) {
-    _print( 'Senha alterada' );
-  } else {
-    _print( 'Erro ao alterar a senha do usuario' );
-  }
-} catch ( \Exception $e ) {
-  _print( "[alterando senha usuario] Mensagem: {$e->getMessage()} Código: {$e->getCode()}" );
-  die();
+    $change_pass = $ipa->user()->modify($new_user_data['uid'], $data_change_pass);
+    if ($change_pass) {
+        _print('Password changed');
+    } else {
+        _print('Error while changing the password');
+    }
+} catch (\Exception $e) {
+    _print("[change password] Message: {$e->getMessage()} Code: {$e->getCode()}");
+    die();
 }
 
 
-// Adiciona um grupo
-_print( "Adicionando grupo \"grupo$random\"" );
+// Add group
+_print("Add group \"group$random\"");
 try {
-  $adicionar_grupo = $ipa->adicionarGrupo( "grupo$random", "Descrição do grupo$random" );
-  if ( $adicionar_grupo ) {
-    _print( 'Grupo adicionado' );
-  } else {
-    _print( 'Erro ao adicionar o grupo' );
-  }
-} catch ( \Exception $e ) {
-  _print( "[adicionando grupo] Mensagem: {$e->getMessage()} Código: {$e->getCode()}" );
-  die();
+    $add_group = $ipa->group()->add("group$random", "group$random description");
+    if ($add_group) {
+        _print('Group added');
+    } else {
+        _print('Error while adding a group');
+    }
+} catch (\Exception $e) {
+    _print("[add group] Message: {$e->getMessage()} Code: {$e->getCode()}");
+    die();
 }
 
 
-// Adicionando um usuario a um grupo
-_print( "Adicionando o usuário \"$usuario\" ao grupo \"grupo$random\"" );
+// Add user to group
+_print("Add \"$user\" to group \"group$random\"");
 try {
-  $adicionar_usuario_grupo = $ipa->adicionarMembroGrupo( "grupo$random", $usuario );
-  if ( $adicionar_grupo ) {
-    _print( 'Usuarios adicionados ao grupo' );
-    var_dump( $adicionar_usuario_grupo );
-  } else {
-    _print( 'Erro ao adicionar usuarios ao grupo' );
-  }
-} catch ( \Exception $e ) {
-  _print( "[adicionando usuarios ao grupo] Mensagem: {$e->getMessage()} Código: {$e->getCode()}" );
-  die();
+    $add_user_group = $ipa->group()->addMember("group$random", $user);
+    if ($add_group) {
+        _print('User added');
+        var_dump($add_user_group);
+    } else {
+        _print('Error while adding user to group');
+    }
+} catch (\Exception $e) {
+    _print("[add user to group] Message: {$e->getMessage()} Code: {$e->getCode()}");
+    die();
 }
 
 
-_print( 'FIM' );
+_print('DONE');
