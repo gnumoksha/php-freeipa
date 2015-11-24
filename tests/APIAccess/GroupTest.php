@@ -1,22 +1,22 @@
 <?php
 
 /**
-  FreeIPA library for PHP
-  Copyright (C) 2015  Tobias Sette <contato@tobias.ws>
+FreeIPA library for PHP
+Copyright (C) 2015  Tobias Sette <contato@tobias.ws>
 
-  This program is free software: you can redistribute it and/or modify
-  it under the terms of the GNU Lesser General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU Lesser General Public License for more details.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
 
-  You should have received a copy of the GNU Lesser General Public License
-  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+You should have received a copy of the GNU Lesser General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 namespace FreeIPA\APIAccess;
 
@@ -24,15 +24,15 @@ require_once('data.php');
 
 /**
  * Class for test the user class
- * @since 0.4
- * @version 0.1
+ * @since GIT: 0.1.0
+ * @version GIT: 0.1.0
  */
 class GroupTest extends \PHPUnit_Framework_TestCase
 {   
     /**
      * @var mixed class instance
      * @access protected
-     * @since 0.1
+     * @since GIT: 0.1.0
      */
     protected $ipa = NULL;
     
@@ -46,8 +46,8 @@ class GroupTest extends \PHPUnit_Framework_TestCase
     /**
      * Inicializa definições dos testes e chama o método pai
      * 
-     * @since 0.1
-     * @todo possibilitar leitura de parâmetros
+     * @since GIT: 0.1.0
+     * @version GIT: 0.1.0
      */
     public function setUp()
     {
@@ -55,7 +55,7 @@ class GroupTest extends \PHPUnit_Framework_TestCase
         $this->data = $data;
         $ipa = new \FreeIPA\APIAccess\Main($data['host'], $data['cert']);
         $r = $ipa->connection()->authenticate($data['user'], $data['pass']);
-        if (false === $r['authenticate']) {
+        if (false === $r) {
             $this->markTestIncomplete('This test need a connection with the server');
         }
         $this->setInstance($ipa);
@@ -63,6 +63,9 @@ class GroupTest extends \PHPUnit_Framework_TestCase
     
     /**
      * Set a instance of \FreeIPA\APIAccess\Main with connection
+     * 
+     * @since GIT: 0.1.0
+     * @version GIT: 0.1.0
      */
     public function setInstance($instance)
     {
@@ -71,17 +74,28 @@ class GroupTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Returns a instance of \FreeIPA\APIAccess\Group with connection
+     * 
+     * @since GIT: 0.1.0
+     * @version GIT: 0.1.0
      */
     public function getInstance()
     {
         return $this->ipa->group();
     }
     
+    /**
+     * @since GIT: 0.1.0
+     * @version GIT: 0.1.0
+     */
     public function getRandom()
     {
         return rand(1, 99999);
     }
     
+    /**
+     * @since GIT: 0.1.0
+     * @version GIT: 0.1.0
+     */
     public function testAddGroupFirstMethod()
     {
         $r = $this->getRandom();
@@ -91,6 +105,10 @@ class GroupTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse(empty($add_group->dn));
     }
     
+    /**
+     * @since GIT: 0.1.0
+     * @version GIT: 0.1.0
+     */
     public function testAddGroupSecondMethod()
     {
         $r = $this->getRandom();
@@ -111,12 +129,18 @@ class GroupTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Exception
+     * @since GIT: 0.1.0
+     * @version GIT: 0.1.0
      */
     public function testAddMemberToNonexistentGroup()
     {
         $r = $this->getInstance()->addMember('groupDoesNotExist', 'userDoesNotExist');
     }
     
+    /**
+     * @since GIT: 0.1.0
+     * @version GIT: 0.1.0
+     */
     public function testAddGroupMember()
     {
         $r = $this->getRandom();
@@ -141,6 +165,5 @@ class GroupTest extends \PHPUnit_Framework_TestCase
 
         $add_group_member = $this->getInstance()->addMember($group_name, $user_data['uid']);
         $this->assertInstanceOf('stdClass', $add_group_member);
-    }
-    
+    }   
 }

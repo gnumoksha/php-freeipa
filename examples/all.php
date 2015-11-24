@@ -53,12 +53,11 @@ try {
 // Make authentication
 try {
     $ret_aut = $ipa->connection()->authenticate($user, $password);
-    if (TRUE === $ret_aut['authenticate']) { // user is authenticate
-        _print($ret_aut['message']);
+    if (TRUE === $ret_aut) { // user is authenticate
+        _print('Authentication successful');
     } else {
-        _print($ret_aut['message']);
-        // For debbug
-        var_dump($ret_aut);
+        $auth_info = $ipa->connection()->getAuthenticationInfo();
+        var_dump($auth_info);
         // For more details:
         //$ret_curl = $ipa->connection()->getCurlError();
         //print "User is not authenticated. Return is: <br/>" . PHP_EOL;

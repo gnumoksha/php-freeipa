@@ -11,4 +11,4 @@ before_script:
     - "composer install --no-dev --verbose"
 
 script:
-    - "phpunit -c phpunit.xml.dist"
+    - "phpunit -c phpunit.xml"

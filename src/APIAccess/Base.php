@@ -23,32 +23,35 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
  * Classes for access to FreeIPA API
- * @since 0.1
+ * @since GIT: 0.1.0
  */
 namespace FreeIPA\APIAccess;
 
 /**
- * This class defines common things for other classes that reuses an connection
+ * This class defines common things for other classes that reuses an
+ * received connection
  * 
  * @author Tobias Sette <contato@tobias.ws>
  * @copyright Copyright (c) 2015 Tobias Sette <contato@tobias.ws>
  * @license LGPLv3
- * @package FreeIPA
- * @since 0.4
- * @version 01.
+ * @package php-freeipa
+ * @since GIT: 0.1.0
+ * @version GIT: 0.2.0
  */
 class Base
 {
     /**
      *
      * @var Connection stores a connection with the freeIPA server 
+     * @since GIT: 0.1.0
      */
     protected $_connection = false;
     
     
     /**
-     * 
      * @param \FreeIPA\APIAccess\Connection $connection
+     * @since GIT: 0.1.0
+     * @version GIT: 0.1.0
      */
     public function __construct(Connection $connection)
     {
@@ -56,8 +59,9 @@ class Base
     }
     
     /**
-     * 
      * @param \FreeIPA\APIAccess\Connection $connection
+     * @since GIT: 0.1.0
+     * @version GIT: 0.1.0
      */
     public function setConnection(Connection $connection)
     {
@@ -65,11 +69,16 @@ class Base
     }
     
     /**
-     * 
      * @return \FreeIPA\APIAccess\Connection
+     * @since GIT: 0.1.0
+     * @version GIT: 0.2.0
      */
     public function getConnection()
     {
-        return($this->_connection);
+        if (false === $this->_connection) {
+            throw new \Exception('No connection');
+        } else {
+            return($this->_connection);
+        }
     }
 }

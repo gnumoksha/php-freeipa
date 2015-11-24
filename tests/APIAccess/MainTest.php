@@ -24,21 +24,21 @@ require_once('data.php');
 
 /**
  * Class for test the main class
- * @since 0.4
- * @version 0.1
+ * @since GIT: 0.1.0
+ * @version GIT: 0.2.0
  */
 class MainTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var mixed class instance
      * @access protected
-     * @since 0.1
+     * @since GIT: 0.1.0
      */
     protected $ipa = NULL;
     
     /**
-     *
      * @var type the content of var data in data.php
+     * @since GIT: 0.1.0
      */
     public $data = null;
     
@@ -46,7 +46,8 @@ class MainTest extends \PHPUnit_Framework_TestCase
     /**
      * Initialization of tests definitions
      * 
-     * @since 0.4
+     * @since GIT: 0.1.0
+     * @version GIT: 0.1.0
      */
     public function setUp()
     {
@@ -54,7 +55,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
         $this->data = $data;
         $ipa = new \FreeIPA\APIAccess\Main($data['host'], $data['cert']);
         $r = $ipa->connection()->authenticate($data['user'], $data['pass']);
-        if (false === $r['authenticate']) {
+        if (false === $r) {
             $this->markTestIncomplete('This test need a connection with the server');
         }
         $this->setInstance($ipa);
@@ -62,6 +63,9 @@ class MainTest extends \PHPUnit_Framework_TestCase
     
     /**
      * Set a instance of \FreeIPA\APIAccess\Main with connection
+     * 
+     * @since GIT: 0.1.0
+     * @version GIT: 0.1.0
      */
     public function setInstance($instancia)
     {
@@ -70,22 +74,37 @@ class MainTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Get a instance of \FreeIPA\APIAccess\Main with connection
+     * 
+     * @since GIT: 0.1.0
+     * @version GIT: 0.1.0
      */
     public function getInstance()
     {
         return $this->ipa;
     }
     
+    /**
+     * @since GIT: 0.1.0
+     * @version GIT: 0.1.0
+     */
     public function testMainClassHasConnectionMethod()
     {
         $this->assertTrue(method_exists(new \FreeIPA\APIAccess\Main(), 'connection'));
     }
     
+    /**
+     * @since GIT: 0.1.0
+     * @version GIT: 0.1.0
+     */
     public function testMainClassHasUserMethod()
     {
         $this->assertTrue(method_exists(new \FreeIPA\APIAccess\Main(), 'user'));
     }
     
+    /**
+     * @since GIT: 0.1.0
+     * @version GIT: 0.1.0
+     */
     public function testMainClassHasGroupMethod()
     {
         $this->assertTrue(method_exists(new \FreeIPA\APIAccess\Main(), 'group'));

@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
  * Classes for access to FreeIPA API
- * @since 0.1
+ * @since GIT: 0.1.0
  */
 namespace FreeIPA\APIAccess;
 
@@ -32,25 +32,26 @@ namespace FreeIPA\APIAccess;
  * @author Tobias Sette <contato@tobias.ws>
  * @copyright Copyright (c) 2015 Tobias Sette <contato@tobias.ws>
  * @license LGPLv3
- * @package FreeIPA
- * @since 0.4
- * @version 0.1
+ * @package php-freeipa
+ * @since GIT: 0.1.0
+ * @version GIT: 0.2.0
  */
 class User extends \FreeIPA\APIAccess\Base
 {
  
     /**
-     * Procura usuários através do método user_find e retorna suas informações
-     * Se uma string for especificada em $args, o servidor irá fazer uma busca genérica
-     * procurando a string nos campos login, first_name e last_name.
+     * Search user through of user_find method.
+     * If $args is a string, the server will search in login, first_name and
+     * last_name fields.
      *
-     * @param array $args argumentos para o método user_find.
-     * @param array $options parâmetros para o método user_find
-     * @return array|bool um indice para cada resultado, em cada resultado um objeto. OU false se não encontrar o usuário
-     * @since 0.1
-     * @throws \Exception se houver erro no retorno json
-     * @see ../docs/return_samples/user_find.txt
-     * @see buildRequest()
+     * @param array $args arguments for user_find method
+     * @param array $options options for user_find method
+     * @return array|bool false if the user was not found
+     * @since GIT: 0.1.0
+     * @version GIT: 0.2.0
+     * @throws \Exception if error in json return
+     * @see ../../docs/return_samples/user_find.txt
+     * @see \FreeIPA\APIAccess\Connection\buildRequest()
      */
     public function find($args = array(), $options = array())
     {
@@ -58,7 +59,7 @@ class User extends \FreeIPA\APIAccess\Base
             return false;
         }
 
-        // Estas opcoes foram obtidos com base nos parâmetros definidos pelo comando ipa -vv user-find --all
+        // Obtained with the command ipa -vv user-find --all
         $default_options = array(
             'all' => true,
             'no_members' => false,
@@ -68,12 +69,11 @@ class User extends \FreeIPA\APIAccess\Base
         );
         $final_options = array_merge($default_options, $options);
 
-        $return_request = $this->getConnection()->buildRequest('user_find', $args, $final_options); // retorna json e codigo http da resposta
+        $return_request = $this->getConnection()->buildRequest('user_find', $args, $final_options); //returns json and http code of response
         $json = $return_request[0];
-        $json_string = json_encode($json);
 
         if (empty($json->result) || !isset($json->result->count)) {
-            throw new \Exception("Um ou mais elementos necessários não foram encontrados na resposta json. Resposta foi \"$json_string\".");
+            throw new \Exception('Malformed json');
         }
 
         if ($json->result->count < 1) {
@@ -84,22 +84,23 @@ class User extends \FreeIPA\APIAccess\Base
     }
 
     /**
-     * Procura usuário através de um campo especificado e retorna suas informações
-     * Principais campos são:
-     *  'givenname' => primeiro nome
-     *  'sn' => sobrenome
-     *  'cn' => nome completo
-     *  'in_group' => usuário está no grupo
-     *  'not_in_group' => usuário não está no grupo
-     *  'mail' => endereço de e-mail
-     *  'uid' => nome de usuário
-     *  'uidnumber' => identificador único do usuário
+     * Search user by field
+     * Principal fields are:
+     *  'givenname' => first name
+     *  'sn' => last name
+     *  'cn' => full name
+     *  'in_group' => user is in group
+     *  'not_in_group' => user it not in group
+     *  'mail' => e-mail address
+     *  'uid' => user unique name
+     *  'uidnumber' => user unique number
      *
-     * @param array $field nome do campo. Ver exemplos acima
-     * @param string $value valor para $field
-     * @return array|bool um indice para cada resultado, em cada resultado um objeto. OU false se não encontrar o usuário
-     * @since 0.2
-     * @see findUser()
+     * @param array $field field name. See examples above
+     * @param string $value field value
+     * @return array|bool false if the user was not found
+     * @since GIT: 0.1.0
+     * @version GIT: 0.1.0
+     * @see find()
      */
     public function findBy($field = null, $value = null)
     {
@@ -107,23 +108,21 @@ class User extends \FreeIPA\APIAccess\Base
             return false;
         }
 
-  //    $options = array( $field_ipa => $value );
         $options = array($field => $value);
         return $this->find(array(), $options);
     }
 
     /**
-     * Obtém os dados de um usuário identificado pelo seu login através
-     * do método user_show da API.
+     * Get user data by login through user_show method
      *
-     * @param string|array $params login do usuário ou array com parâmetros para o método user_show
-     * @param array $options opções para o método user_show
-     * @return array|bool um indice para cada resultado, em cada resultado um objeto. OU false se não encontrar o usuário
-     * @since 0.1
-     * @since 0.2 $params pode ser uma string
+     * @param string|array $params user login or some parameters
+     * @param array $options options for user_show method
+     * @return array|bool false if the user was not found
+     * @since GIT: 0.1.0
+     * @version GIT: 0.2.0
      * @throws \Exception se houver erro no retorno json
-     * @see ../docs/return_samples/user_show.txt
-     * @see buildRequest()
+     * @see ../../docs/return_samples/user_show.txt
+     * @see \FreeIPA\APIAccess\Connection\buildRequest()
      */
     public function get($params = null, $options = array())
     {
@@ -139,7 +138,7 @@ class User extends \FreeIPA\APIAccess\Base
             return false;
         }
 
-        // Estas opcoes foram obtidos com base nos parâmetros definidos pelo comando [root@fedora ~]# ipa -vv user-show admin
+        // Obtained with the command ipa -vv user-show admin
         $default_options = array(
             'all' => true,
             'no_members' => false,
@@ -148,21 +147,19 @@ class User extends \FreeIPA\APIAccess\Base
         );
         $final_options = array_merge($options, $default_options);
 
-        // retorna json e codigo http da resposta
         $return_request = $this->getConnection()->buildRequest('user_show', $final_params, $final_options, false);
         $json = $return_request[0];
-        $json_string = json_encode($json);
 
         if (!empty($json->error) && strtolower($json->error->name) == 'notfound') {
-            // usuário não encontrado
+            // user not found
             return false;
         }
 
         if (empty($json->result)) {
-            throw new \Exception("Um ou mais elementos necessários não foram encontrados na resposta json. Resposta foi \"$json_string\".");
+            throw new \Exception('Malformed json');
         }
 
-        // #TODO remover este trecho?
+        // #TODO erase this code?
         if (!isset($json->result->result)) {
             return false;
         }
@@ -171,19 +168,20 @@ class User extends \FreeIPA\APIAccess\Base
     }
 
     /**
-     * Adiciona usuário no FreeIPA
-     * Principais campos em $data:
-     *  'givenname' => primeiro nome
-     *  'sn' => sobrenome
-     *  'cn' => nome completo
-     *  'mail' => endereço de e-mail
-     *  'uid' => nome de usuário (login). Campo obrigatório
-     *  'userpassword' => senha do usuario
+     * Adds a user
+     * The main fields in $data:
+     *  'givenname' => first name
+     *  'sn' => last name
+     *  'cn' => full name
+     *  'mail' => e-mail address
+     *  'uid' => login (required field)
+     *  'userpassword' => user password
      * 
-     * @param array $data contém as informações do usuário. Ver exemplo acima
-     * @return object|bool Objeto contendo os dados do usuário criado ou false em caso de erro
-     * @since 0.2
-     * @see buildRequest()
+     * @param array $data user data. See example above
+     * @return object|bool Object with new user data or false if the user was not found
+     * @since GIT: 0.1.0
+     * @version GIT: 0.1.0
+     * @see \FreeIPA\APIAccess\Connection\buildRequest()
      */
     public function add($data)
     {
@@ -191,7 +189,7 @@ class User extends \FreeIPA\APIAccess\Base
             return false;
         }
 
-        // Estas opcoes foram obtidos com base nos parâmetros definidos pelo comando
+        // Obtained with the command:
         // ipa -vv user_add tobias --first="Tobias" --last="Sette" --email="contato@tobias.ws" --password
         $args = array($data['uid']);
         $default_options = array(
@@ -204,8 +202,8 @@ class User extends \FreeIPA\APIAccess\Base
         unset($data['uid']);
         $final_options = array_merge($default_options, $data);
 
-        // O método buildRequest() já verifica o campo 'error', que é o único relevante para este método da API
-        $return_request = $this->getConnection()->buildRequest('user_add', $args, $final_options); // retorna json e codigo http da resposta
+        // The buildRequest() method already checks the field 'error', which is the only relevant to this API method
+        $return_request = $this->getConnection()->buildRequest('user_add', $args, $final_options); //returns json and http code of response
         if (!$return_request) {
             return false;
         }
@@ -214,26 +212,27 @@ class User extends \FreeIPA\APIAccess\Base
     }
 
     /**
-     * Altera os dados de um usuário no FreeIPA.
-     * Principais campos em $data:
-     *  'givenname' => primeiro nome
-     *  'sn' => sobrenome
-     *  'cn' => nome completo
-     *  'mail' => endereço de e-mail
-     *  'userpassword' => senha do usuario
-     *  'krbprincipalexpiration' '__datetime__' => Data da expiração da senha. Exemplo: 20150816010101Z
+     * Change user data
+     * The main fields in $data:
+     *  'givenname' => first name
+     *  'sn' => last name
+     *  'cn' => full name
+     *  'mail' => e-mail address
+     *  'userpassword' => user password
+     *  'krbprincipalexpiration' => Date of password expiration (Python __datetime__). Example: 20150816010101Z
      * 
-     * Caso o usuário não exista, o método buildRequest() irá retornar uma \Exception.
-     * Note que ao alterar a senha o usuário estará sujeito as políticas do servidor, tais como
-     * tamanho e data de expiração da senha, alem da politica do FreeIPA de invalidar a primeira senha.
-     * Se a senha for invalidada o usuário não conseguirá fazer login através do método authenticate()
+     * If user does not exists, the \FreeIPA\APIAccess\Connection\buildRequest() method will return \Exception.
+     * Please, note that change the user password will be subject to server policies, such as
+     * length, expiration date and freeIPA behavior that will invalidate the first password.
+     * If password was invalidated the user don't will be able to make login through authenticate() method
      *
-     * @param string $login login (uid) do usuário que será alterado.
-     * @param array $data contém as informações que serão alteradas. Ver exemplo acima
-     * @return object|bool Objeto contendo os dados do usuário criado ou false em caso de erro
-     * @since 0.2
-     * @see ../docs/return_samples/user_mod.txt
-     * @see buildRequest()
+     * @param string $login uid user that will be changed
+     * @param array $data See above
+     * @return object|bool Object with new 1user data or false if the user was not found
+     * @since GIT: 0.1.0
+     * @version GIT: 0.1.0
+     * @see ../../docs/return_samples/user_mod.txt
+     * @see \FreeIPA\APIAccess\Connection\buildRequest()
      * @link https://www.freeipa.org/page/New_Passwords_Expired
      * @link https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Identity_Management_Guide/changing-pwds.html
      * @link http://docs.fedoraproject.org/en-US/Fedora/17/html/FreeIPA_Guide/pwd-expiration.html
@@ -244,7 +243,7 @@ class User extends \FreeIPA\APIAccess\Base
             return false;
         }
 
-        // Estas opcoes foram obtidos com base nos parâmetros definidos pelo comando ipa -vv user_mod tobias --first="testeaaaaaa"
+        // Obtained with the command: ipa -vv user_mod tobias --first="testaaaaaa"
         $args = array($login);
         $default_options = array(
             'all' => false,
@@ -255,8 +254,8 @@ class User extends \FreeIPA\APIAccess\Base
         );
         $final_options = array_merge($default_options, $data);
 
-        // O método buildRequest() já verifica o campo 'error', que é o único relevante para este método da API
-        $return_request = $this->getConnection()->buildRequest('user_mod', $args, $final_options); // retorna json e codigo http da resposta
+        // The buildRequest() method already checks the field 'error', which is the only relevant to this API method
+        $return_request = $this->getConnection()->buildRequest('user_mod', $args, $final_options); //returns json and http code of response
         if (!$return_request) {
             return false;
         }

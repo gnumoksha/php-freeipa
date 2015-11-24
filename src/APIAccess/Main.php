@@ -34,9 +34,9 @@ namespace FreeIPA\APIAccess;
  * @author Tobias Sette <contato@tobias.ws>
  * @copyright Copyright (c) 2015 Tobias Sette <contato@tobias.ws>
  * @license LGPLv3
- * @package FreeIPA
- * @since 0.4
- * @version 0.1
+ * @package php-freeipa
+ * @since GIT 0.1.0
+ * @version GIT: 0.2.0
  */
 class Main
 {
@@ -61,7 +61,9 @@ class Main
     
     public function __construct($server = null, $certificate = null)
     {
-        return($this->connection($server, $certificate));
+        $this->_connection = $this->connection($server, $certificate);
+        $this->_user = new \FreeIPA\APIAccess\User($this->_connection);
+        $this->_group = $this->_group = new \FreeIPA\APIAccess\Group($this->_connection);
     }
     
     /**
@@ -74,8 +76,6 @@ class Main
     {
         if (! $this->_connection) {
             $this->_connection = \FreeIPA\APIAccess\Connection::getInstance($server, $certificate);
-            //$this->_connection->setIPAServer($server);
-            //$this->_connection->setCertificateFile($certificate);
         }
         return($this->_connection);
     }
@@ -86,9 +86,6 @@ class Main
      */
     public function user()
     {
-        if (! $this->_user) {
-            $this->_user = new \FreeIPA\APIAccess\User($this->_connection);
-        }
         return($this->_user);
     }
 
@@ -98,9 +95,6 @@ class Main
      */
     public function group()
     {
-        if (! $this->_group) {
-            $this->_group = new \FreeIPA\APIAccess\Group($this->_connection);
-        }
         return($this->_group);
     }
 }

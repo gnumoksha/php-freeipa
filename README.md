@@ -1,5 +1,5 @@
 # php-freeipa
-A PHP library for access FreeIPA
+A PHP library for connect and use some features of the freeIPA / Red Hat Identity Management
 
 [![Build Status](https://travis-ci.org/gnumoksha/php-freeipa.svg)](https://travis-ci.org/gnumoksha/php-freeipa)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/gnumoksha/php-freeipa/badges/quality-score.png)](https://scrutinizer-ci.com/g/gnumoksha/php-freeipa/)
@@ -18,6 +18,7 @@ wget --no-check-certificate https://ipa.demo1.freeipa.org/ipa/config/ca.crt -O c
 Creates an instance
 ```php
 require_once('./bootstrap.php');
+$host = 'ipa.demo1.freeipa.org';
 $certificate = __DIR__ . "./certs/ipa.demo1.freeipa.org_ca.crt";
 $ipa = new \FreeIPA\APIAccess\Main($host, $certificate);
 ```
@@ -26,9 +27,12 @@ Authenticates with the server
 ```php
 $user = 'admin';
 $password = 'Secret123';
-$logged_in = $ipa->connection()->authenticate($user, $password);
-if ($logged_in) {
+$auth = $ipa->connection()->authenticate($user, $password);
+if ($auth) {
     print 'Logged in';
+} else {
+    $auth_info = $ipa->connection->getAuthenticationInfo();
+    var_dump($auth_info);
 }
 ```
 

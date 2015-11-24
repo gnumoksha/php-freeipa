@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
  * Classes for access to FreeIPA API
- * @since 0.1
+ * @since GIT: 0.1.0
  */
 namespace FreeIPA\APIAccess;
 
@@ -32,24 +32,25 @@ namespace FreeIPA\APIAccess;
  * @author Tobias Sette <contato@tobias.ws>
  * @copyright Copyright (c) 2015 Tobias Sette <contato@tobias.ws>
  * @license LGPLv3
- * @package FreeIPA
- * @since 0.4
- * @version 0.1
+ * @package php-freeipa
+ * @since GIT: 0.1.0
+ * @version GIT: 0.2.0
  */
 class Group extends \FreeIPA\APIAccess\Base
 {
     /**
-     * Adiciona um grupo no FreeIPA
-     * Principais parâmetros de $data:
-     *  'description' => descrição do grupo
-     * Se $data for uma string, será encarada como sendo a descrição do grupo
+     * Adds a group
+     * The main fields in $data:
+     *  'description' => group description
+     * If $data is string will be a group description
      * 
-     * @param string $name nome do grupo
-     * @param array|string $data contém as informações que serão adicionadas. Ver exemplo acima
-     * @return object|bool Objeto contendo os dados do grupo criado ou false em caso de erro
-     * @since 0.2
-     * @see ../docs/return_samples/group_add.txt
-     * @see buildRequest()
+     * @param string $name group name
+     * @param array|string $data see above
+     * @return object|bool Object with new group data or false if the group was not found
+     * @since GIT: 0.1.0
+     * @version GIT: 0.1.0
+     * @see ../../docs/return_samples/group_add.txt
+     * @see \FreeIPA\APIAccess\Connection\buildRequest()
      */
     public function add($name = null, $data = array())
     {
@@ -57,7 +58,7 @@ class Group extends \FreeIPA\APIAccess\Base
             return false;
         }
 
-        // Estas opcoes foram obtidos com base nos parâmetros definidos pelo comando ipa -vv group-add blube_bolinha --desc="Grupo tal" --all 
+        // Obtained with the command: ipa -vv group-add group_one --desc="Group one" --all 
         $args = array($name);
         $default_options = array(
             'all' => false,
@@ -74,8 +75,8 @@ class Group extends \FreeIPA\APIAccess\Base
             return false;
         }
 
-        // O método buildRequest() já verifica o campo 'error', que é o único relevante para este método da API
-        $response = $this->getConnection()->buildRequest('group_add', $args, $final_options); // retorna json e codigo http da resposta
+        // The buildRequest() method already checks the field 'error', which is the only relevant to this API method
+        $response = $this->getConnection()->buildRequest('group_add', $args, $final_options); //returns json and http code of response
         if (!$response) {
             return false;
         }
@@ -84,19 +85,20 @@ class Group extends \FreeIPA\APIAccess\Base
     }
 
     /**
-     * Adiciona membros (usuários ou outros grupos) a um grupo
-     * Parâmetros principais de $data:
-     *  'user' => array contendo os usuários a serem adicionados
-     *  'group' => array contendo os grupos a serem adicionados
-     * Se $data for uma string, será encarado como sendo o uid de um usuário
+     * Adds members (users or other groups) to group
+     * The main fields in $data:
+     *  'user' => array that contain users that will be added
+     *  'group' => array that contain groups that will be added
+     * If $data is a string, will be user uid
      * 
-     * @param string $group_name Nome do grupo no qual os membros serão adicionados
-     * @param array|string $data contém as informações que serão adicionadas. Ver exemplo acima
-     * @return mixed Array contendo informações sobre o processamento e os dados do grupo em questão. Ou false em caso de erro
-     * @since 0.2
-     * @see ../docs/return_samples/group_add_member.txt
-     * @see buildRequest()
-     * @throws \Exception se a requisição não foi completada com sucesso
+     * @param string $group_name group name
+     * @param array|string $data See explanation above
+     * @return mixed Array containing information about processing and group data OR false on error
+     * @since GIT: 0.1.0
+     * @version GIT: 0.1.0
+     * @see ../../docs/return_samples/group_add_member.txt
+     * @see \FreeIPA\APIAccess\Connection\buildRequest()
+     * @throws \Exception if the request was not completed successfully
      */
     public function addMember($group_name = null, $data = array())
     {
@@ -104,7 +106,7 @@ class Group extends \FreeIPA\APIAccess\Base
             return false;
         }
 
-        // Estas opcoes foram obtidos com base nos parâmetros definidos pelo comando ipa -vv group_add_member clube_bolinha --users="stallman" 
+        // Obtained with the command: ipa -vv group_add_member group_one --users="stallman" 
         $args = array($group_name);
         $default_options = array(
             'all' => true,
@@ -119,14 +121,15 @@ class Group extends \FreeIPA\APIAccess\Base
             return false;
         }
 
-        $response = $this->getConnection()->buildRequest('group_add_member', $args, $final_options); // retorna json e codigo http da resposta
+        $response = $this->getConnection()->buildRequest('group_add_member', $args, $final_options); //returns json and http code of response
         if (!$response) {
             return false;
         }
         $returned_json = $response[0];
         if (!$returned_json->result->completed) {
             $message = "Error while inserting members in group \"$group_name\".";
-            if (!empty($returned_json->result->failed->member->group) || !empty($returned_json->result->failed->member->user)) {
+            if (!empty($returned_json->result->failed->member->group) ||
+            !empty($returned_json->result->failed->member->user)) {
                 $message .= 'Details: ';
             }
 
@@ -141,7 +144,8 @@ class Group extends \FreeIPA\APIAccess\Base
             throw new \Exception($message);
         }
 
-        // ao contrário os outros métodos, onde é retornado $returned_json->result->result, o $returned_json->result deste contém informações que podem ser úteis
+        // Unlike other methods, where $returned_json->result->result is returned,
+        // here the $returned_json->result contain usefull information
         return $returned_json->result;
     }
 }

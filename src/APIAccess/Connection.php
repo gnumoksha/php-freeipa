@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
  * Classes for access to FreeIPA API
- * @since 0.1
+ * @sice GIT 0.1.0
  */
 namespace FreeIPA\APIAccess;
 
@@ -33,11 +33,9 @@ namespace FreeIPA\APIAccess;
  * @author Tobias Sette <contato@tobias.ws>
  * @copyright Copyright (c) 2015 Tobias Sette <contato@tobias.ws>
  * @license LGPLv3
- * @package FreeIPA
- * @since 0.1 14/06/2015 estrutura da classe e uso básico
- * @since 0.2 16/07/2015 adicionado documentação phpdoc; diversos métodos
- * @since 0.3 21/07/2015 definindo comportamento mais unificado para melhorar os testes; corrigido método getUser
- * @version 0.4
+ * @package php-freeipa
+ * @since GIT: 0.1.0
+ * @version GIT 0.2.0
  */
 class Connection
 {
@@ -45,7 +43,7 @@ class Connection
      * Sotre only one instance of this class
      * @var instance
      * @access private
-     * @since 0.4
+     * @since GIT: 0.1.0
      */
     private static $_instance;
 
@@ -56,116 +54,124 @@ class Connection
      *
      * @var string|null api_version API version that will be sent in each requisition
      * @access private
-     * @since 0.1
+     * @since GIT: 0.1.0
      */
     protected $api_version = null;
 
     /**
      * @var mixed cURL handler
      * @access public
-     * @since 0.1
+     * @since GIT: 0.1.0
      */
     protected $curl_handler = null;
 
     /**
      * @var bool curl_initiated if cURL was initiated or not
      * @access protected
-     * @since 0.1
+     * @since GIT: 0.1.0
      */
     protected $curl_initiated = false;
 
     /**
      * @var bool curl_debug if cURL will be initiated with debug or not
      * @access private
-     * @since 0.1
+     * @since GIT: 0.1.0
      */
     protected $curl_debug = false;
 
     /**
      * @var string|null curl_response Stores response/return of cURL
      * @access protected
-     * @since 0.1
+     * @since GIT: 0.1.0
      */
     protected $curl_response = null;
 
     /**
      * @var int curl_timeout Timeout for cURL connection
      * @access public
-     * @since 0.1
+     * @sice GIT 0.1.0
      */
     protected $curl_timeout = 10;
 
     /**
      * @var string|null cookie_file Full path for file that will stores cookie
      * @access private
-     * @since 0.1
+     * @sice GIT 0.1.0
      */
     protected $cookie_file = null;
 
     /**
      * @var string|null cookie_string String that contains cookie for use in cURL. workaround_for_auth
      * @access private
-     * @since 0.1
+     * @sice GIT 0.1.0
      */
     protected $cookie_string = null;
 
     /**
      * @var string|null certificate_file Full path of certificate file for use in connections with the server
      * @access public
-     * @since 0.1
+     * @sice GIT 0.1.0
      */
     protected $certificate_file  = null;
 
     /**
      * @var array curl_http_header HTTP header that will be used with cURL
      * @access public
-     * @since 0.1
+     * @sice GIT 0.1.0
      */
     protected $curl_http_header = array();
 
     /**
      * @var string|null ipa_server IP address or hostname of freeIPA server
      * @access protected
-     * @since 0.1
+     * @sice GIT 0.1.0
      */
     protected $ipa_server = null;
 
     /**
      * @var string|null jsonrpc_url URL where the server accept json RPC connections
      * @access protected
-     * @since 0.1
+     * @sice GIT 0.1.0
      */
     protected $jsonrpc_url = null;
 
     /**
      * @var string|null jsonrpc_login_url URL where the server accept loggin connections
      * @access protected
-     * @since 0.1
+     * @sice GIT 0.1.0
      */
     protected $jsonrpc_login_url = null;
 
     /**
      * @var bool user_logged If user made login or not
      * @access protected
-     * @since 0.1
+     * @sice GIT 0.1.0
      */
     protected $user_logged  = false;
     
     /**
      * @var string|null $json_request String that contains the last json request what will be (or was) sent to the server
      * @access protected
-     * @since 0.2
+     * @since GIT: 0.1.0
      */
     protected $json_request = null;
 
     /**
      * @var string|null $json_response String that contains the last json response from server
      * @access protected
-     * @since 0.2
+     * @since GIT: 0.1.0
      */
     protected $json_response = null;
     
-    
+    /**
+     * @var array Stores information about a previous authentication
+     * @see authenticate()
+     * @see getAuthenticationInfo()
+     * @since GIT: 0.2.0
+     */
+    protected $authentication_info = array();
+
+
     /**
      * Executa ações necessárias ao início do uso de uma instância desta classe.
      * Por favor, note que o servidor e certificado não são obrigatórios ao instanciar a classe,
@@ -181,7 +187,7 @@ class Connection
      * @param string|null $server address (IP or hostname) of server
      * @param string|null $certificate full path of server certificate
      * @return void
-     * @since 0.1
+     * @sice GIT 0.1.0
      * @see getInstance()
      * @see setIPAServer()
      * @see setCertificateFile()
@@ -205,13 +211,20 @@ class Connection
     }
     
     /**
+     * This a Singleton class
      * 
+     * @since GIT: 0.1.0
      */
     private function __clone()
     {
         // nothing
     }
     
+    /**
+     * This is a Singlton class
+     * 
+     * @since GIT: 0.1.0
+     */
     private function __wakeup()
     {
         // nothing
@@ -222,7 +235,7 @@ class Connection
      *
      * @param void
      * @return void
-     * @since 0.1
+     * @sice GIT 0.1.0
      */
     public function __destruct()
     {
@@ -237,17 +250,23 @@ class Connection
      * @param type $force_new if true, a new instance is returned (breaking the Singleton)
      * @return type
      * @return instance of this class
+     * @since GIT: 0.1.0
+     * @version GIT: 0.1.0
      */
     public static function getInstance($server = null, $certificate = null, $force_new = false)
     {
-        if ( false === $force_new) {
-            if (! isset(self::$_instance)) {
-                self::$_instance = new self($server, $certificate);
-            }
-            return(self::$_instance);
-        } elseif (true === $force_new) {
-            return(new self($server, $certificate));
+        switch ($force_new) {
+            case false:
+                if (! isset(self::$_instance)) {
+                    self::$_instance = new self($server, $certificate);
+                }
+                $r = self::$_instance;
+                break;
+            case true:
+                $r = new self($server, $certificate);
+                break;
         }
+        return($r);
 	}
 
     /**
@@ -256,8 +275,9 @@ class Connection
      *
      * @param string
      * @return void
-     * @since 0.1
-     * @see getVersaoAPI()
+     * @sice GIT 0.1.0
+     * @version GIT: 0.1.0
+     * @see getAPIVersion()
      */
     private function setAPIVersion($version)
     {
@@ -269,10 +289,11 @@ class Connection
      *
      * @param void
      * @return string
-     * @since 0.1
+     * @sice GIT 0.1.0
+     * @version GIT: 0.2.0
      * @see setAPIVersion()
      */
-    private function getVersaoAPI()
+    private function getAPIVersion()
     {
         return $this->api_version;
     }
@@ -282,7 +303,8 @@ class Connection
      *
      * @param string $host endereço (IP ou hostname) do servidor
      * @return bool
-     * @since 0.1
+     * @sice GIT 0.1.0
+     * @version GIT: 0.1.0
      * @see __construct()
      * @see getIPAServer()
      */
@@ -302,7 +324,8 @@ class Connection
      *
      * @param void
      * @return string|bool
-     * @since 0.1
+     * @sice GIT 0.1.0
+     * @version GIT: 0.1.0
      * @see setIPAServer()
      */
     public function getIPAServer()
@@ -315,7 +338,8 @@ class Connection
      *
      * @param string $file full path of certificate file
      * @return bool false if the file is not stated nor string. True in success
-     * @since 0.1
+     * @sice GIT 0.1.0
+     * @version GIT: 0.1.0
      * @see __construct()
      * @see getCertificateFile()
      * @throws \Exception if the file does not exist or can't be read
@@ -337,7 +361,8 @@ class Connection
      * Get the full path of certificate file
      *
      * @return string|bool
-     * @since 0.1
+     * @sice GIT 0.1.0
+     * @version GIT: 0.1.0
      * @see setCertificateFile()
      */
     public function getCertificateFile()
@@ -350,7 +375,8 @@ class Connection
      *
      * @param string $string string returned by cURL
      * @return void
-     * @since 0.1
+     * @sice GIT 0.1.0
+     * @version GIT: 0.1.0
      * @see getCurlReturn()
      */
     public function setCurlReturn($string = null)
@@ -363,7 +389,8 @@ class Connection
      *
      * @param void
      * @return string|bool
-     * @since 0.1
+     * @sice GIT 0.1.0
+     * @version GIT: 0.1.0
      * @see setCurlReturn()
      */
     public function getCurlReturn()
@@ -377,7 +404,8 @@ class Connection
      * @param void
      * @return string|null
      * @see buildJsonRequest()
-     * @since 0.2
+     * @since GIT: 0.1.0
+     * @version GIT: 0.1.0
      */
     public function getJsonRequest()
     {
@@ -389,7 +417,8 @@ class Connection
      *
      * @param void
      * @return string|null
-     * @since 0.2
+     * @since GIT: 0.1.0
+     * @version GIT: 0.1.0
      */
     public function getJsonResponse()
     {
@@ -401,7 +430,8 @@ class Connection
      *
      * @param bool $force force cURL to be initiated again
      * @return mixed cURL handler
-     * @since 0.1
+     * @sice GIT 0.1.0
+     * @version GIT: 0.1.0
      * @see endCurl()
      */
     public function startCurl($force = false)
@@ -453,7 +483,8 @@ class Connection
      *
      * @param void
      * @return void
-     * @since 0.1
+     * @sice GIT 0.1.0
+     * @version GIT: 0.1.0
      * @see startCurl()
      */
     public function endCurl()
@@ -467,34 +498,36 @@ class Connection
      *
      * @param void
      * @return Manipulador (handler) para o cURL
-     * @since 0.1
+     * @sice GIT 0.1.0
+     * @version GIT: 0.1.0
      * @see startCurl()
      * @todo need improvements
      */
-    public function debugCurl()
-    {
-        $this->startCurl();
-        print PHP_EOL . '<br/>Debug do curl ativado<br/>' . PHP_EOL;
-        $curl_options = array(
-            // Verbosity
-            CURLOPT_VERBOSE => true,
-            // Include header in the response
-            CURLOPT_HEADER => true,
-            // true to output SSL certification information to STDERR on secure transfers.
-            CURLOPT_CERTINFO => true,
-            // 
-            CURLINFO_HEADER_OUT => true,
-        );
-        $this->curl_debug = true;
-        return curl_setopt_array($this->curl_handler, $curl_options);
-    }
+//    public function debugCurl()
+//    {
+//        $this->startCurl();
+//        print PHP_EOL . '<br/>Debug do curl ativado<br/>' . PHP_EOL;
+//        $curl_options = array(
+//            // Verbosity
+//            CURLOPT_VERBOSE => true,
+//            // Include header in the response
+//            CURLOPT_HEADER => true,
+//            // true to output SSL certification information to STDERR on secure transfers.
+//            CURLOPT_CERTINFO => true,
+//            // 
+//            CURLINFO_HEADER_OUT => true,
+//        );
+//        $this->curl_debug = true;
+//        return curl_setopt_array($this->curl_handler, $curl_options);
+//    }
 
     /**
      * If a previous use of cURL has generated an error
      *
      * @param void
      * @return bool
-     * @since 0.1
+     * @sice GIT 0.1.0
+     * @version GIT: 0.1.0
      */
     public function curlHaveError()
     {
@@ -506,7 +539,8 @@ class Connection
      *
      * @param void
      * @return array
-     * @since 0.1
+     * @sice GIT 0.1.0
+     * @version GIT: 0.1.0
      * @link http://curl.haxx.se/libcurl/c/libcurl-errors.html
      */
     public function getCurlError()
@@ -522,7 +556,7 @@ class Connection
      *
      * @param void
      * @return array
-     * @since 0.1
+     * @sice GIT 0.1.0
      * @link http://php.net/manual/en/function.curl-getinfo.php
      */
     public function getCurlInfo()
@@ -537,7 +571,8 @@ class Connection
      *
      * @param void
      * @return string|bool return false in error or HTTP response code
-     * @since 0.1
+     * @sice GIT 0.1.0
+     * @version GIT: 0.1.0
      * @see getCurlError()
      * @see getCurlReturn()
      * @link http://php.net/manual/en/function.curl-exec.php
@@ -562,16 +597,11 @@ class Connection
      * Try to authenticate the user and password in the server through URL
      * defined in $jsonrpc_login_url
      *
-     * $ret
-     *  ['authenticate'] bool if user is authenticated
-     *  ['reason'] string the reason of the last action
-     *  ['message'] string with the message generated for the last action
-     *  ['http_code'] HTTP code for the response
-     *
      * @param string $user
      * @param string $password
-     * @return array $ret see description above
-     * @since 0.1
+     * @return bool
+     * @sice GIT 0.1.0
+     * @version GIT: 0.2.0
      * @throws \Exception if cURL has error
      * @throws \Exception if $this->ipa_server is invalid
      * @throws \Exception if $this->certificate_file is invalid
@@ -581,18 +611,22 @@ class Connection
      */
     public function authenticate($user = null, $password = null)
     {
+        if ($this->userLogged()) {
+            return true;
+        }
+        
         if (!$user || !$password) {
             return false;
         }
         
-        if (empty($this->ipa_server)) {
+        if (! $this->getIPAServer()) {
             throw new \Exception("Error while validating the server");
         }
-        else if (empty($this->certificate_file)) {
+        if (! $this->getCertificateFile()) {
             throw new \Exception("Error while validating the certificate");
         }
 
-        $return = array(
+        $auth_info = array(
             'authenticate' => false,
             'reason' => '',
             'message' => '',
@@ -605,9 +639,9 @@ class Connection
         );
 
         if (empty($user) || empty($password)) {
-            $return['authenticate'] = false;
-            $return['message'] = 'User/password is empty';
-            return $return;
+            $auth_info['authenticate'] = false;
+            $auth_info['message'] = 'User/password is empty';
+            return $auth_info;
         }
 
         //$user = urlencode($user);
@@ -622,7 +656,7 @@ class Connection
             curl_setopt($this->curl_handler, CURLOPT_HEADER, true);
         }
 
-        $return['http_code'] = $this->curlExec();
+        $auth_info['http_code'] = $this->curlExec();
 
         if ($this->curlHaveError()) {
             $e = $this->getCurlError();
@@ -632,7 +666,7 @@ class Connection
         // #TODO Maybe this field be returned only in 401 errors
         // Example of this field on header: X-IPA-Rejection-Reason: invalid-password
         preg_match('/X-IPA-Rejection-Reason: ([^\n]*)/i', $this->getCurlReturn(), $search_reject_reason);
-        $return['reason'] = (empty($search_reject_reason[1])) ? false : trim($search_reject_reason[1]);
+        $auth_info['reason'] = (empty($search_reject_reason[1])) ? false : trim($search_reject_reason[1]);
 
         // I need header for get the value for X-IPA-Rejection-Reason field
         // and as workaround_for_auth
@@ -651,29 +685,29 @@ class Connection
             $ipa_error_description = trim($ipa_error_description);
         }
 
-        if ('401' == $return['http_code']) {
-            $return['authenticate'] = false;
+        if ('401' == $auth_info['http_code']) {
+            $auth_info['authenticate'] = false;
             // É melhor não exibir todas as mensagens diretamente ao usuário, para ficar mais amigável.
-            // O $return['reason'] invalid-password vem em mais de um caso (quando o usuario é bloqueado e ou usuario/senha está incorreto)
+            // O $auth_info['reason'] invalid-password vem em mais de um caso (quando o usuario é bloqueado e ou usuario/senha está incorreto)
             if ('kinit: Preauthentication failed while getting initial credentials' == $ipa_error_description) {
-                $return['message'] .= 'User or password are wrong. ';
+                $auth_info['message'] .= 'User or password are wrong. ';
             } else if (preg_match("/Client (.*?) not found in Kerberos database while getting initial credentials/i", $ipa_error_description)) {
-                $return['message'] .= 'Unable to find user in the server. ';
+                $auth_info['message'] .= 'Unable to find user in the server. ';
             } else {
-                $return['message'] .= 'Generic error in authentication. ';
+                $auth_info['message'] .= 'Generic error in authentication. ';
                 if (! empty($ipa_error_description)) {
-                    $return['message'] .= "The server returned \"" . $ipa_error_description . "\". ";
+                    $auth_info['message'] .= "The server returned \"" . $ipa_error_description . "\". ";
                 }
             }
-        } else if ('200' != $return['http_code']) {
-            $return['authenticate'] = false;
-            $return['message'] = "The response returned the HTTP code \"" . $return['http_code'] . "\" that is not acceptable. ";
+        } else if ('200' != $auth_info['http_code']) {
+            $auth_info['authenticate'] = false;
+            $auth_info['message'] = "The response returned the HTTP code \"" . $auth_info['http_code'] . "\" that is not acceptable. ";
             if (!empty($ipa_error_description)) {
-                $return['message'] .= "The server returned \"" . $ipa_error_description . "\". ";
+                $auth_info['message'] .= "The server returned \"" . $ipa_error_description . "\". ";
             }
         } else {
-            $return['authenticate'] = true;
-            $return['message'] = 'User has successfully authenticated. ';
+            $auth_info['authenticate'] = true;
+            $auth_info['message'] = 'User has successfully authenticated. ';
             // workaround_for_auth. Obtenho a string do cookie manualmente.
             preg_match("/Set-Cookie: ([^\n]*)/", $this->getCurlReturn(), $found);
             if (empty($found[1])) {
@@ -685,8 +719,28 @@ class Connection
             curl_setopt($this->curl_handler, CURLOPT_COOKIE, $this->cookie_string);
         }
 
-        $this->user_logged = $return['authenticate'];
-        return $return;
+        $this->user_logged = $auth_info['authenticate'];
+        $this->authentication_info = $auth_info;
+        return($this->user_logged);
+    }
+    
+    /**
+     * Get information about a previous authentication through
+     * authenticate() method
+     * 
+     * $return
+     *  ['authenticate'] bool if user is authenticated
+     *  ['reason'] string the reason of the last action
+     *  ['message'] string with the message generated for the last action
+     *  ['http_code'] HTTP code for the response
+     * 
+     * @return array $return see description above
+     * @since GIT: 0.2.0
+     * @version GIT: 0.2.0
+     */
+    public function getAuthenticationInfo()
+    {
+        return($this->authentication_info);
     }
 
     /**
@@ -694,7 +748,8 @@ class Connection
      *
      * @param void
      * @return bool
-     * @since 0.1
+     * @sice GIT 0.1.0
+     * @version GIT: 0.1.0
      */
     public function userLogged()
     {
@@ -708,6 +763,8 @@ class Connection
      * @param bool $force if true array must be associative. If false, must be associative only if not empty
      * @return bool
      * @link http://php.net/manual/en/function.is-array.php#89332
+     * @since GIT: 0.1.0
+     * @version GIT: 0.1.0
      */
     public function isAssociativeArray($var, $force = true)
     {
@@ -729,7 +786,8 @@ class Connection
      * @param array $args arguments for the method
      * @param array $options options for the method
      * @return string|bool returns false if there is error in passed parameters
-     * @since 0.1
+     * @sice GIT 0.1.0
+     * @version GIT: 0.1.0
      * @link http://php.net/manual/en/function.json-encode.php
      */
     public function buildJsonRequest($method = null, $args = array(), $options = array())
@@ -776,8 +834,8 @@ class Connection
      * @param array $options options for the method
      * @param bool $exceptionInError if true, will lauch \Exception if error field in response comes filled
      * @return array with response object (comes of json_decode()) and http code of response
-     * @since 0.1
-     * @since 0.3 $exceptionInError
+     * @sice GIT 0.1.0
+     * @version GIT: 0.1.0
      * @throws \Exception if user is not logged in
      * @throws \Exception if has error while create request
      * @throws \Exception if has error while define cURL options or make a request
@@ -787,7 +845,7 @@ class Connection
      * @see userLogged()
      * @see buildJsonRequest()
      * @see $json_response
-     * @see ../docs/return_samples/invalid_json_request.txt
+     * @see ../../docs/return_samples/invalid_json_request.txt
      * @link http://php.net/manual/en/function.json-decode.php
      */
     public function buildRequest($method = null, $params = array(), $options = array(), $exceptionInError = true)
@@ -842,8 +900,9 @@ class Connection
      *
      * @param bool if $return_string is true, will return the summary field of json response
      * @return string|bool true if success or string if $return_string is true
-     * @since 0.1
-     * @see ../docs/return_samples/ping.txt
+     * @sice GIT 0.1.0
+     * @version GIT: 0.1.0
+     * @see ../../docs/return_samples/ping.txt
      */
     public function ping($return_string = false)
     {
