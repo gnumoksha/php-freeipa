@@ -31,7 +31,7 @@ $auth = $ipa->connection()->authenticate($user, $password);
 if ($auth) {
     print 'Logged in';
 } else {
-    $auth_info = $ipa->connection->getAuthenticationInfo();
+    $auth_info = $ipa->connection()->getAuthenticationInfo();
     var_dump($auth_info);
 }
 ```
