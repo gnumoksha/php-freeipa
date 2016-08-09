@@ -820,6 +820,9 @@ class Connection
             'params' => array($final_args, $final_options),
         );
 
+        // JSON_PRETTY_PRINT constant unavaiable in PHP < 5.4.0
+        if (!defined('JSON_PRETTY_PRINT')) {define('JSON_PRETTY_PRINT', 128);}
+
         $this->json_request = json_encode($return, JSON_PRETTY_PRINT);
         return $this->json_request;
     }
