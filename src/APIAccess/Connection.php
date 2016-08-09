@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
  * Classes for access to FreeIPA API
- * @sice GIT 0.1.0
+ * @since GIT 0.1.0
  */
 namespace FreeIPA\APIAccess;
 
@@ -89,63 +89,63 @@ class Connection
     /**
      * @var int curl_timeout Timeout for cURL connection
      * @access public
-     * @sice GIT 0.1.0
+     * @since GIT 0.1.0
      */
     protected $curl_timeout = 10;
 
     /**
      * @var string|null cookie_file Full path for file that will stores cookie
      * @access private
-     * @sice GIT 0.1.0
+     * @since GIT 0.1.0
      */
     protected $cookie_file = null;
 
     /**
      * @var string|null cookie_string String that contains cookie for use in cURL. workaround_for_auth
      * @access private
-     * @sice GIT 0.1.0
+     * @since GIT 0.1.0
      */
     protected $cookie_string = null;
 
     /**
      * @var string|null certificate_file Full path of certificate file for use in connections with the server
      * @access public
-     * @sice GIT 0.1.0
+     * @since GIT 0.1.0
      */
     protected $certificate_file  = null;
 
     /**
      * @var array curl_http_header HTTP header that will be used with cURL
      * @access public
-     * @sice GIT 0.1.0
+     * @since GIT 0.1.0
      */
     protected $curl_http_header = array();
 
     /**
      * @var string|null ipa_server IP address or hostname of freeIPA server
      * @access protected
-     * @sice GIT 0.1.0
+     * @since GIT 0.1.0
      */
     protected $ipa_server = null;
 
     /**
      * @var string|null jsonrpc_url URL where the server accept json RPC connections
      * @access protected
-     * @sice GIT 0.1.0
+     * @since GIT 0.1.0
      */
     protected $jsonrpc_url = null;
 
     /**
      * @var string|null jsonrpc_login_url URL where the server accept loggin connections
      * @access protected
-     * @sice GIT 0.1.0
+     * @since GIT 0.1.0
      */
     protected $jsonrpc_login_url = null;
 
     /**
      * @var bool user_logged If user made login or not
      * @access protected
-     * @sice GIT 0.1.0
+     * @since GIT 0.1.0
      */
     protected $user_logged  = false;
     
@@ -187,7 +187,7 @@ class Connection
      * @param string|null $server address (IP or hostname) of server
      * @param string|null $certificate full path of server certificate
      * @return void
-     * @sice GIT 0.1.0
+     * @since GIT 0.1.0
      * @see getInstance()
      * @see setIPAServer()
      * @see setCertificateFile()
@@ -235,7 +235,7 @@ class Connection
      *
      * @param void
      * @return void
-     * @sice GIT 0.1.0
+     * @since GIT 0.1.0
      */
     public function __destruct()
     {
@@ -275,7 +275,7 @@ class Connection
      *
      * @param string
      * @return void
-     * @sice GIT 0.1.0
+     * @since GIT 0.1.0
      * @version GIT: 0.1.0
      * @see getAPIVersion()
      */
@@ -289,7 +289,7 @@ class Connection
      *
      * @param void
      * @return string
-     * @sice GIT 0.1.0
+     * @since GIT 0.1.0
      * @version GIT: 0.2.0
      * @see setAPIVersion()
      */
@@ -303,7 +303,7 @@ class Connection
      *
      * @param string $host endereço (IP ou hostname) do servidor
      * @return bool
-     * @sice GIT 0.1.0
+     * @since GIT 0.1.0
      * @version GIT: 0.1.0
      * @see __construct()
      * @see getIPAServer()
@@ -324,7 +324,7 @@ class Connection
      *
      * @param void
      * @return string|bool
-     * @sice GIT 0.1.0
+     * @since GIT 0.1.0
      * @version GIT: 0.1.0
      * @see setIPAServer()
      */
@@ -338,7 +338,7 @@ class Connection
      *
      * @param string $file full path of certificate file
      * @return bool false if the file is not stated nor string. True in success
-     * @sice GIT 0.1.0
+     * @since GIT 0.1.0
      * @version GIT: 0.1.0
      * @see __construct()
      * @see getCertificateFile()
@@ -361,7 +361,7 @@ class Connection
      * Get the full path of certificate file
      *
      * @return string|bool
-     * @sice GIT 0.1.0
+     * @since GIT 0.1.0
      * @version GIT: 0.1.0
      * @see setCertificateFile()
      */
@@ -375,7 +375,7 @@ class Connection
      *
      * @param string $string string returned by cURL
      * @return void
-     * @sice GIT 0.1.0
+     * @since GIT 0.1.0
      * @version GIT: 0.1.0
      * @see getCurlReturn()
      */
@@ -389,7 +389,7 @@ class Connection
      *
      * @param void
      * @return string|bool
-     * @sice GIT 0.1.0
+     * @since GIT 0.1.0
      * @version GIT: 0.1.0
      * @see setCurlReturn()
      */
@@ -430,7 +430,7 @@ class Connection
      *
      * @param bool $force force cURL to be initiated again
      * @return mixed cURL handler
-     * @sice GIT 0.1.0
+     * @since GIT 0.1.0
      * @version GIT: 0.1.0
      * @see endCurl()
      */
@@ -483,7 +483,7 @@ class Connection
      *
      * @param void
      * @return void
-     * @sice GIT 0.1.0
+     * @since GIT 0.1.0
      * @version GIT: 0.1.0
      * @see startCurl()
      */
@@ -498,7 +498,7 @@ class Connection
      *
      * @param void
      * @return Manipulador (handler) para o cURL
-     * @sice GIT 0.1.0
+     * @since GIT 0.1.0
      * @version GIT: 0.1.0
      * @see startCurl()
      * @todo need improvements
@@ -526,7 +526,7 @@ class Connection
      *
      * @param void
      * @return bool
-     * @sice GIT 0.1.0
+     * @since GIT 0.1.0
      * @version GIT: 0.1.0
      */
     public function curlHaveError()
@@ -539,7 +539,7 @@ class Connection
      *
      * @param void
      * @return array
-     * @sice GIT 0.1.0
+     * @since GIT 0.1.0
      * @version GIT: 0.1.0
      * @link http://curl.haxx.se/libcurl/c/libcurl-errors.html
      */
@@ -556,7 +556,7 @@ class Connection
      *
      * @param void
      * @return array
-     * @sice GIT 0.1.0
+     * @since GIT 0.1.0
      * @link http://php.net/manual/en/function.curl-getinfo.php
      */
     public function getCurlInfo()
@@ -571,7 +571,7 @@ class Connection
      *
      * @param void
      * @return string|bool return false in error or HTTP response code
-     * @sice GIT 0.1.0
+     * @since GIT 0.1.0
      * @version GIT: 0.1.0
      * @see getCurlError()
      * @see getCurlReturn()
@@ -600,7 +600,7 @@ class Connection
      * @param string $user
      * @param string $password
      * @return bool
-     * @sice GIT 0.1.0
+     * @since GIT 0.1.0
      * @version GIT: 0.2.0
      * @throws \Exception if cURL has error
      * @throws \Exception if $this->ipa_server is invalid
@@ -748,7 +748,7 @@ class Connection
      *
      * @param void
      * @return bool
-     * @sice GIT 0.1.0
+     * @since GIT 0.1.0
      * @version GIT: 0.1.0
      */
     public function userLogged()
@@ -786,7 +786,7 @@ class Connection
      * @param array $args arguments for the method
      * @param array $options options for the method
      * @return string|bool returns false if there is error in passed parameters
-     * @sice GIT 0.1.0
+     * @since GIT 0.1.0
      * @version GIT: 0.1.0
      * @link http://php.net/manual/en/function.json-encode.php
      */
@@ -834,7 +834,7 @@ class Connection
      * @param array $options options for the method
      * @param bool $exceptionInError if true, will lauch \Exception if error field in response comes filled
      * @return array with response object (comes of json_decode()) and http code of response
-     * @sice GIT 0.1.0
+     * @since GIT 0.1.0
      * @version GIT: 0.1.0
      * @throws \Exception if user is not logged in
      * @throws \Exception if has error while create request
@@ -900,7 +900,7 @@ class Connection
      *
      * @param bool if $return_string is true, will return the summary field of json response
      * @return string|bool true if success or string if $return_string is true
-     * @sice GIT 0.1.0
+     * @since GIT 0.1.0
      * @version GIT: 0.1.0
      * @see ../../docs/return_samples/ping.txt
      */
