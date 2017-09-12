@@ -75,9 +75,10 @@ class UserTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Returns a instance of \FreeIPA\APIAccess\User with connection
-     * 
+     *
      * @since GIT: 0.1.0
      * @version GIT: 0.1.0
+     * @return \FreeIPA\APIAccess\User
      */
     public function getInstance()
     {
@@ -136,5 +137,24 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(is_array($r->memberof_group));
         $this->assertTrue(is_array($r->uid));
         $this->assertEquals($this->data['user'], $r->uid[0]);
+    }
+
+    public function testChangeUserPassword()
+    {
+        $r = $this->getRandom();
+
+        $data = array(
+            'givenname'    => 'Richard',
+            'sn'           => "Stallman$r",
+            'uid'          => "stallman$r",
+            'mail'         => "rms$r@fsf.org",
+            'userpassword' => $r,
+        );
+
+        $added = $this->getInstance()->add($data);
+
+        $newPassword = $this->getRandom();
+        $changed = $this->getInstance()->changePassword("stallman$r", $r, $newPassword);
+        $this->assertTrue($changed->result);
     }
 }

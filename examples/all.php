@@ -203,6 +203,21 @@ try {
 }
 
 
+$new_pass = 'gnuuuuu159';
+try {
+    _print("Changing the password for user {$new_user_data['uid']} to {$new_pass}");
+    $change_pass = $ipa->user()->changePassword($new_user_data['uid'], $data_change_pass['userpassword'], $new_pass);
+    if ($change_pass->result) {
+        _print("Password changed");
+    } else {
+        _print("Error while changing the password");
+    }
+} catch (\Exception $e) {
+    _print("Error! " . $e->getMessage());
+    die();
+}
+
+
 // Add group
 _print("Add group \"group$random\"");
 try {

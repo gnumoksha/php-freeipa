@@ -262,5 +262,20 @@ class User extends \FreeIPA\APIAccess\Base
 
         return $return_request[0]->result->result;
     }
-    
+
+    public function changePassword($user, $currentPassword, $newPassword)
+    {
+        $args = array($user);
+        $options = array(
+            'current_password' => $currentPassword,
+            'password' => $newPassword
+        );
+
+        $return_request = $this->getConnection()->buildRequest('passwd', $args, $options);
+        if (!$return_request) {
+            return false;
+        }
+
+        return $return_request[0]->result;
+    }
 }
