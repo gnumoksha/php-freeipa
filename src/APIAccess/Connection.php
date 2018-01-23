@@ -649,7 +649,7 @@ class Connection
 
         curl_setopt($this->curl_handler, CURLOPT_HTTPHEADER, $this->curl_http_header);
         curl_setopt($this->curl_handler, CURLOPT_URL,        $this->jsonrpc_login_url);
-        curl_setopt($this->curl_handler, CURLOPT_POSTFIELDS, "user=$user&password=$password");
+        curl_setopt($this->curl_handler, CURLOPT_POSTFIELDS, http_build_query(array('user' => $user, 'password' => $password)));
         // I need header for get the value for X-IPA-Rejection-Reason field
         // and as workaround_for_auth
         if (! $this->curl_debug) {
