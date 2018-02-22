@@ -47,7 +47,7 @@ Searching for users
 $r = $ipa->user()->findBy('mail', 'user@company.com');
 if ($r) {
     $t = count($r);
-    print "Found $t usuários. Names: ";
+    print "Found $t users. Names: ";
     for ($i = 0; $i < $t; $i++) {
         print $r[$i]->uid[0] . ' | ';
     }
