@@ -217,6 +217,55 @@ try {
     die();
 }
 
+// Get Group information
+_print("Showing o group \"group$random\"");
+try {
+    $ret_group = $ipa->group()->get("group$random");
+    if (TRUE == $ret_group) {
+        _print('Group found');
+        var_dump($ret_group);
+    } else {
+        _print("User group$random not found");
+    }
+} catch (Exception $e) {
+    _print("Message: {$e->getMessage()} Code: {$e->getCode()}");
+    die();
+}
+
+
+// Searching a group
+_print("Searching group with cn contains group");
+try {
+    $ret_search_groups = $ipa->user()->find(array('group'));
+    if ($ret_search_groups) {
+        $t = count($ret_search_groups);
+        print "Found $t groups. Names: ";
+        for ($i = 0; $i < $t; $i++) {
+            print $ret_search_groups[$i]->cn[0] . " | ";
+        }
+        _print();
+    } else {
+        _print('No group found');
+    }
+} catch (Exception $e) {
+    _print("[searching group] Exception. Message: {$e->getMessage()} Code: {$e->getCode()}");
+    die();
+}
+
+// Modify group
+_print("Modify group \"group$random\"");
+try {
+    $mod_group = $ipa->group()->modify("group$random", [ 'description' => "group$random description updated"]);
+    if ($mod_group) {
+        _print('Group modified');
+    } else {
+        _print('Error while adding a group');
+    }
+} catch (\Exception $e) {
+    _print("[modify group] Message: {$e->getMessage()} Code: {$e->getCode()}");
+    die();
+}
+
 
 // Add user to group
 _print("Add \"$user\" to group \"group$random\"");
@@ -230,6 +279,21 @@ try {
     }
 } catch (\Exception $e) {
     _print("[add user to group] Message: {$e->getMessage()} Code: {$e->getCode()}");
+    die();
+}
+
+// remove user from group
+_print("Remove \"$user\" from group \"group$random\"");
+try {
+    $add_user_group = $ipa->group()->removeMember("group$random", $user);
+    if ($add_group) {
+        _print('User removed');
+        var_dump($add_user_group);
+    } else {
+        _print('Error while removing user to group');
+    }
+} catch (\Exception $e) {
+    _print("[remove user to group] Message: {$e->getMessage()} Code: {$e->getCode()}");
     die();
 }
 
