@@ -268,7 +268,9 @@ class Group extends \FreeIPA\APIAccess\Base
             'posix' => false,
             'external' => false,
             'nonposix' => false,
-            'no_members'    => false
+            'no_members'    => false,
+            'timelimit' => 0,
+            'sizelimit' => 0,
         );
         $final_options = array_merge($default_options, $options);
 

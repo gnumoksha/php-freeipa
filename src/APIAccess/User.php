@@ -66,6 +66,8 @@ class User extends \FreeIPA\APIAccess\Base
             'pkey_only' => false,
             'raw' => false,
             'whoami' => false,
+            'timelimit' => 0,
+            'sizelimit' => 0,
         );
         $final_options = array_merge($default_options, $options);
 
