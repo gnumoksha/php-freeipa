@@ -1,0 +1,15 @@
+checks:
+  php: true
+
+build:
+  nodes:
+    analysis:
+      tests:
+        override:
+          - php-scrutinizer-run
+
+tools:
+  php_code_sniffer:
+    enabled: true
+    config:
+      standard: PSR12
