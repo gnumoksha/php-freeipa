@@ -39,8 +39,6 @@ class FreeIpa
     private $requestBody;
     /** @var \Gnumoksha\FreeIpa\Model\User\UserRepository|null */
     private $userRepository;
-    /** @var \Gnumoksha\FreeIpa\Model\Group\GroupRepository|null */
-    private $groupRepository;
 
     public function __construct(
         Options $options,

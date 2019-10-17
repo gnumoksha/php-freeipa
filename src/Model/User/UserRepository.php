@@ -26,6 +26,7 @@ use Gnumoksha\FreeIpa\Infra\Repository\BaseRepository;
 use Gnumoksha\FreeIpa\Infra\Rpc\Client;
 use Gnumoksha\FreeIpa\Infra\Rpc\Request\Body as RequestBodyInterface;
 use Gnumoksha\FreeIpa\Infra\Rpc\Response\Body as ResponseBodyInterface;
+
 use function strlen;
 
 /**
@@ -59,12 +60,16 @@ class UserRepository extends BaseRepository
      */
     public function add($user, array $arguments = [], array $options = []): ResponseBodyInterface
     {
+        if (\is_object($user)) {
+            $user = (array)$user;
+        }
+
         $defaultOptions = [
-            'all' => false,
+            'all'        => false,
             'no_members' => false,
-            'noprivate' => false,
-            'random' => false,
-            'raw' => false,
+            'noprivate'  => false,
+            'random'     => false,
+            'raw'        => false,
         ];
 
         $arguments = array_merge([$user['uid']], $arguments);
@@ -80,10 +85,10 @@ class UserRepository extends BaseRepository
     public function show(array $arguments, array $options = []): ResponseBodyInterface
     {
         $defaultOptions = [
-            'all' => true,
+            'all'        => true,
             'no_members' => false,
-            'raw' => false,
-            'rights' => false,
+            'raw'        => false,
+            'rights'     => false,
         ];
 
         $body = $this->body->withMethod(self::TOPIC . '_show')
@@ -129,11 +134,11 @@ class UserRepository extends BaseRepository
     public function mod(string $uid, array $newData, array $arguments = [], array $options = []): ResponseBodyInterface
     {
         $defaultOptions = [
-            'all' => false,
+            'all'        => false,
             'no_members' => false,
-            'random' => false,
-            'raw' => false,
-            'rights' => false,
+            'random'     => false,
+            'raw'        => false,
+            'rights'     => false,
         ];
 
         $arguments = array_merge([$uid], $arguments);
