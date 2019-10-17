@@ -21,6 +21,7 @@ declare(strict_types=1);
 
 namespace Gnumoksha\FreeIpa\Infra\Rpc\Request;
 
+use Gnumoksha\FreeIpa\Infra\Json\Json;
 use PHPUnit\Framework\TestCase;
 
 class CommonBodyTest extends TestCase
@@ -29,7 +30,7 @@ class CommonBodyTest extends TestCase
     {
         $body = new CommonBody('fooBar');
 
-        $obj = json_decode(json_encode($body));
+        $obj = (object)Json::decode(Json::encode($body));
         $this->assertEquals('fooBar', $obj->method);
     }
 
@@ -37,7 +38,7 @@ class CommonBodyTest extends TestCase
     {
         $body = new CommonBody('foo', [], null, '123');
 
-        $obj = json_decode(json_encode($body));
+        $obj = (object)Json::decode(Json::encode($body));
         $this->assertEquals('foo/123', $obj->method);
     }
 }

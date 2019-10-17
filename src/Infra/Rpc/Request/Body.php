@@ -1,4 +1,5 @@
 <?php
+
 /**
  * FreeIPA library for PHP
  * Copyright (C) 2015-2019 Tobias Sette <me@tobias.ws>

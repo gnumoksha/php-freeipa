@@ -57,10 +57,14 @@
       "vendor/bin/phpunit --verbose --configuration phpunit.xml.dist --coverage-html tests/html-report"
     ],
     "phpcs": [
-      "vendor/bin/php-cs-fixer fix --config=.php_cs --verbose --diff --dry-run"
+      "vendor/bin/phpcs -s -p --standard=PSR12 src/ tests/"
     ],
     "phpstan": [
       "vendor/bin/phpstan analyse"
+    ],
+    "check": [
+      "@phpcs",
+      "@phpstan"
     ]
   },
   "config": {
