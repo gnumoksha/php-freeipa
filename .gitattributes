@@ -1,0 +1,7 @@
+docs/ export-ignore
+tests/ export-ignore
+.scrutinizer.yml
+.travis.yml
+phpstan.neon
+phpunit.xml.dist
+psalm.xml

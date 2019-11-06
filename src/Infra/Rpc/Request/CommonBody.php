@@ -158,7 +158,7 @@ class CommonBody implements Body
     public function jsonSerialize(): array
     {
         return [
-            'method' => $this->method . ($this->methodVersion !== null ? sprintf('/%s', $this->methodVersion) : null),
+            'method' => $this->method . ($this->methodVersion !== null ? sprintf('/%s', $this->methodVersion) : ''),
             'params' => [$this->arguments, $this->options],
             'id'     => $this->id,
         ];

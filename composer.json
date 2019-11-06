@@ -37,7 +37,8 @@
     "phpstan/phpstan": "^0.11.15",
     "phpstan/phpstan-phpunit": "^0.11.2",
     "phpunit/phpunit": "^7.5",
-    "squizlabs/php_codesniffer": "*"
+    "squizlabs/php_codesniffer": "*",
+    "vimeo/psalm": "^3.6"
   },
   "autoload": {
     "psr-4": {
@@ -64,7 +65,8 @@
     ],
     "check": [
       "@phpcs",
-      "@phpstan"
+      "@phpstan",
+      "psalm"
     ]
   },
   "config": {
