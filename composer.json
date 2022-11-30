@@ -20,8 +20,9 @@
     }
   ],
   "require": {
-    "php": "^7.1",
+    "php": "^7.4",
     "ext-json": "*",
+    "ocramius/package-versions": "*",
     "php-http/client-common": "^2.0",
     "php-http/discovery": "^1.7",
     "php-http/message": "^1.8",
@@ -70,6 +71,9 @@
     ]
   },
   "config": {
-    "sort-packages": true
+    "sort-packages": true,
+    "allow-plugins": {
+      "ocramius/package-versions": true
+    }
   }
 }

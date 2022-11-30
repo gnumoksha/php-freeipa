@@ -50,7 +50,18 @@ class FreeIpaTest extends TestCase
     {
         $this->ipa->login('admin', 'Secret123');
 
-        $response = $this->ipa->getUserRepository()->findBySn('Administrator');
+        $response = $this->ipa->getUserRepository()->findBySn('Admin');
+
+        $this->assertNull($response->getError());
+        $this->assertInstanceOf(\stdClass::class, $response->getResult());
+        $this->assertEquals(1, $response->getResult()->count);
+    }
+
+    public function testMustFindGroup(): void
+    {
+        $this->ipa->login('admin', 'Secret123');
+
+        $response = $this->ipa->getGroupRepository()->findBy('cn', 'ipausers');
 
         $this->assertNull($response->getError());
         $this->assertInstanceOf(\stdClass::class, $response->getResult());
