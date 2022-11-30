@@ -56,13 +56,13 @@ class GroupRepository extends BaseRepository
     public function find(array $arguments, array $options): ResponseBodyInterface
     {
         $defaultOptions = [
-            'all'       => true,
-            'private'   => false,
-            'posix'     => false,
-            'external'  => false,
-            'nonposix'  => true,
-            'no_members'=> true,
-            'raw'       => false,
+            'all'           => true,
+            'private'       => false,
+            'posix'         => false,
+            'external'      => false,
+            'nonposix'      => true,
+            'no_members'    => true,
+            'raw'           => false,
         ];
 
         $body = $this->body->withMethod(self::TOPIC . '_find')
@@ -93,9 +93,9 @@ class GroupRepository extends BaseRepository
     public function addMember(string $group, string $uid): ResponseBodyInterface
     {
         $defaultOptions = [
-            'all'       => false,
-            'raw'       => false,
-            'no_members'=> true,
+            'all'           => false,
+            'raw'           => false,
+            'no_members'    => true,
         ];
 
         $body = $this->body->withMethod(self::TOPIC . '_add_member')
