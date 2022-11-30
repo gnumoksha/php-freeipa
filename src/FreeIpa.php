@@ -27,6 +27,7 @@ use Gnumoksha\FreeIpa\Infra\Rpc\Request\Body as RequestBodyInterface;
 use Gnumoksha\FreeIpa\Infra\Rpc\Request\CommonBody as CommonRequestBody;
 use Gnumoksha\FreeIpa\Infra\Rpc\Response\Body as ResponseBodyInterface;
 use Gnumoksha\FreeIpa\Model\User\UserRepository;
+use Gnumoksha\FreeIpa\Model\Group\GroupRepository;
 
 /**
  * Façade providing easy bootstrapping and convenient methods.
@@ -39,6 +40,8 @@ class FreeIpa
     private $requestBody;
     /** @var \Gnumoksha\FreeIpa\Model\User\UserRepository|null */
     private $userRepository;
+    /** @var \Gnumoksha\FreeIpa\Model\Group\GroupRepository|null */
+    private $groupRepository;
 
     public function __construct(
         Options $options,
@@ -66,6 +69,15 @@ class FreeIpa
         }
 
         return $this->userRepository;
+    }
+
+    public function getGroupRepository(): GroupRepository
+    {
+        if ($this->groupRepository === null) {
+            $this->groupRepository = new GroupRepository($this->client, $this->requestBody);
+        }
+
+        return $this->groupRepository;
     }
 
     /**
