@@ -17,10 +17,12 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 declare(strict_types=1);
 
 namespace Gnumoksha\FreeIpa;
 
+use Gnumoksha\FreeIpa\Infra\Json\JsonException;
 use Gnumoksha\FreeIpa\Infra\Rpc\ClientBuilder;
 use Gnumoksha\FreeIpa\Infra\Rpc\PluginClientBuilder;
 use Gnumoksha\FreeIpa\Infra\Rpc\Request\Body as RequestBodyInterface;
@@ -28,20 +30,20 @@ use Gnumoksha\FreeIpa\Infra\Rpc\Request\CommonBody as CommonRequestBody;
 use Gnumoksha\FreeIpa\Infra\Rpc\Response\Body as ResponseBodyInterface;
 use Gnumoksha\FreeIpa\Model\User\UserRepository;
 use Gnumoksha\FreeIpa\Model\Group\GroupRepository;
+use Psr\Http\Client\ClientExceptionInterface;
 
 /**
  * Façade providing easy bootstrapping and convenient methods.
  */
 class FreeIpa
 {
-    /** @var \Gnumoksha\FreeIpa\Infra\Rpc\Client */
-    private $client;
-    /** @var \Gnumoksha\FreeIpa\Infra\Rpc\Request\Body */
-    private $requestBody;
-    /** @var \Gnumoksha\FreeIpa\Model\User\UserRepository|null */
-    private $userRepository;
-    /** @var \Gnumoksha\FreeIpa\Model\Group\GroupRepository|null */
-    private $groupRepository;
+    private Infra\Rpc\Client $client;
+
+    private CommonRequestBody|RequestBodyInterface $requestBody;
+
+    private ?UserRepository $userRepository = null;
+
+    private ?GroupRepository $groupRepository = null;
 
     public function __construct(
         Options $options,
@@ -55,7 +57,7 @@ class FreeIpa
     }
 
     /**
-     * @throws \Psr\Http\Client\ClientExceptionInterface
+     * @throws ClientExceptionInterface
      */
     public function login(string $username, string $password): void
     {
@@ -83,8 +85,8 @@ class FreeIpa
     /**
      * Sends a raw request.
      *
-     * @throws \Gnumoksha\FreeIpa\Infra\Json\JsonException
-     * @throws \Psr\Http\Client\ClientExceptionInterface
+     * @throws JsonException
+     * @throws ClientExceptionInterface
      */
     public function sendRequest(RequestBodyInterface $body): ResponseBodyInterface
     {

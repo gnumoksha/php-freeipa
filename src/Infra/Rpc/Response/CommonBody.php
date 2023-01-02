@@ -22,28 +22,19 @@ declare(strict_types=1);
 
 namespace Gnumoksha\FreeIpa\Infra\Rpc\Response;
 
+use JetBrains\PhpStorm\ArrayShape;
+
 class CommonBody implements Body
 {
-    /**
-     * @var object|null
-     */
-    public $result;
-    /**
-     * @var string
-     */
-    public $principal;
-    /**
-     * @var mixed
-     */
-    public $error;
-    /**
-     * @var string|null
-     */
-    public $id;
-    /**
-     * @var string|null
-     */
-    public $version;
+    public ?object $result;
+
+    public string $principal;
+
+    public mixed $error;
+
+    public ?string $id;
+
+    public ?string $version;
 
     public function __construct($result, string $principal, $error, ?string $id = null, ?string $version = null)
     {
@@ -57,7 +48,7 @@ class CommonBody implements Body
     /**
      * {@inheritDoc}
      */
-    public function getResult()
+    public function getResult(): null|object
     {
         return $this->result;
     }
@@ -81,7 +72,7 @@ class CommonBody implements Body
     /**
      * {@inheritDoc}
      */
-    public function getError()
+    public function getError(): ?object
     {
         return $this->error;
     }
@@ -95,9 +86,6 @@ class CommonBody implements Body
         return $this->id;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getVersion(): ?string
     {
         return $this->version;
@@ -106,7 +94,14 @@ class CommonBody implements Body
     /**
      * {@inheritDoc}
      */
-    public function jsonSerialize()
+    #[ArrayShape([
+        'result' => "null|object",
+        'principal' => "string",
+        'error' => "mixed",
+        'id' => "null|string",
+        'version' => "null|string"
+    ])]
+    public function jsonSerialize(): array
     {
         return [
             'result'    => $this->result,
