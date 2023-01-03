@@ -133,7 +133,7 @@ class UserRepository extends BaseRepository
      *
      * @see \Gnumoksha\FreeIpa\Model\User\UserRepository::find() base method
      */
-    public function findBy(string $field, $value): ResponseBodyInterface
+    public function findBy(string $field, string $value): ResponseBodyInterface
     {
         return $this->find([], [$field => $value]);
     }
@@ -169,7 +169,7 @@ class UserRepository extends BaseRepository
         return $this->client->sendRequest($body);
     }
 
-    public function __call($name, $arguments)
+    public function __call(string $name, array $arguments): ResponseBodyInterface
     {
         if (strncmp($name, 'findBy', 6) === 0 && strlen($name) > 6) {
             $field = str_replace('findBy', '', $name);

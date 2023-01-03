@@ -25,11 +25,11 @@ namespace Gnumoksha\FreeIpa\Infra\Rpc\Response;
 /**
  * @see https://access.redhat.com/articles/2728021#request-response
  */
-class Message
+final class Message
 {
-    public $code;
-    public $data;
-    public $message;
-    public $name;
-    public $type;
+    public int $code;
+    public string $data;
+    public string $message;
+    public string $name;
+    public string $type;
 }

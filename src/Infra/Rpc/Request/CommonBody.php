@@ -81,7 +81,7 @@ class CommonBody implements Body
     /**
      * {@inheritDoc}
      */
-    public function withArgument($argument): Body
+    public function withArgument(string $argument): Body
     {
         $new              = clone $this;
         $new->arguments[] = $argument;
@@ -109,7 +109,7 @@ class CommonBody implements Body
     /**
      * {@inheritDoc}
      */
-    public function withOption($name, $value): Body
+    public function withOption(string $name, ?string $value): Body
     {
         $new                   = clone $this;
         $new->options->{$name} = $value;
@@ -119,6 +119,8 @@ class CommonBody implements Body
 
     /**
      * {@inheritDoc}
+     *
+     * @psalm-suppress PropertyTypeCoercion
      */
     public function withOptions(array $options): Body
     {
@@ -128,6 +130,12 @@ class CommonBody implements Body
         return $new;
     }
 
+    /**
+     * @param array $options
+     * @return Body
+     *
+     * @psalm-suppress PropertyTypeCoercion
+     */
     public function withAddedOptions(array $options): Body
     {
         $new          = clone $this;
@@ -137,9 +145,9 @@ class CommonBody implements Body
     }
 
     /**
-     * @return string|mixed
+     * @return string
      */
-    public function getId(): mixed
+    public function getId(): string
     {
         return $this->id;
     }

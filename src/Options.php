@@ -26,7 +26,7 @@ class Options
 {
     private string $host;
     private string $certificatePath;
-    private ?string $primaryUrl;
+    private string $primaryUrl;
     private ?string $apiVersion;
 
     public function __construct(
