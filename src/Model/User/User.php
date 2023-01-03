@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Gnumoksha\FreeIpa\Model\User;
 
-class User
+final class User
 {
-    public $loginshell;
-    public $krbprincipalname;
-    public $uid;
-    public $nsaccountlock;
-    public $homedirectory;
-    public $uidnumber;
-    public $gidnumber;
-    public $sn;
-    public $dn;
+    public string $loginshell;
+    public string $krbprincipalname;
+    public int $uid;
+    public int $nsaccountlock;
+    public string $homedirectory;
+    public int $uidnumber;
+    public int $gidnumber;
+    public string $sn;
+    public string $dn;
 }

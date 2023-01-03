@@ -1,0 +1,186 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Method Gnumoksha\\\\FreeIpa\\\\Infra\\\\Json\\\\Json\\:\\:decode\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Infra/Json/Json.php
+
+		-
+			message: "#^Parameter \\#3 \\$depth of function json_decode expects int\\<1, max\\>, int given\\.$#"
+			count: 1
+			path: src/Infra/Json/Json.php
+
+		-
+			message: "#^Parameter \\#3 \\$depth of function json_encode expects int\\<1, max\\>, int given\\.$#"
+			count: 1
+			path: src/Infra/Json/Json.php
+
+		-
+			message: "#^Property Gnumoksha\\\\FreeIpa\\\\Infra\\\\Rpc\\\\PluginClientBuilder\\:\\:\\$httpClientPlugins type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Infra/Rpc/PluginClientBuilder.php
+
+		-
+			message: "#^Method Gnumoksha\\\\FreeIpa\\\\Infra\\\\Rpc\\\\Request\\\\Body\\:\\:withAddedOptions\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Infra/Rpc/Request/Body.php
+
+		-
+			message: "#^Method Gnumoksha\\\\FreeIpa\\\\Infra\\\\Rpc\\\\Request\\\\Body\\:\\:withArguments\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Infra/Rpc/Request/Body.php
+
+		-
+			message: "#^Method Gnumoksha\\\\FreeIpa\\\\Infra\\\\Rpc\\\\Request\\\\Body\\:\\:withOptions\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Infra/Rpc/Request/Body.php
+
+		-
+			message: "#^Method Gnumoksha\\\\FreeIpa\\\\Infra\\\\Rpc\\\\Request\\\\CommonBody\\:\\:__construct\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Infra/Rpc/Request/CommonBody.php
+
+		-
+			message: "#^Method Gnumoksha\\\\FreeIpa\\\\Infra\\\\Rpc\\\\Request\\\\CommonBody\\:\\:jsonSerialize\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Infra/Rpc/Request/CommonBody.php
+
+		-
+			message: "#^Method Gnumoksha\\\\FreeIpa\\\\Infra\\\\Rpc\\\\Request\\\\CommonBody\\:\\:withAddedOptions\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Infra/Rpc/Request/CommonBody.php
+
+		-
+			message: "#^Method Gnumoksha\\\\FreeIpa\\\\Infra\\\\Rpc\\\\Request\\\\CommonBody\\:\\:withArguments\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Infra/Rpc/Request/CommonBody.php
+
+		-
+			message: "#^Method Gnumoksha\\\\FreeIpa\\\\Infra\\\\Rpc\\\\Request\\\\CommonBody\\:\\:withOptions\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Infra/Rpc/Request/CommonBody.php
+
+		-
+			message: "#^Property Gnumoksha\\\\FreeIpa\\\\Infra\\\\Rpc\\\\Request\\\\CommonBody\\:\\:\\$arguments type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Infra/Rpc/Request/CommonBody.php
+
+		-
+			message: "#^Method Gnumoksha\\\\FreeIpa\\\\Infra\\\\Rpc\\\\Response\\\\CommonBody\\:\\:__construct\\(\\) has parameter \\$error with no type specified\\.$#"
+			count: 1
+			path: src/Infra/Rpc/Response/CommonBody.php
+
+		-
+			message: "#^Method Gnumoksha\\\\FreeIpa\\\\Infra\\\\Rpc\\\\Response\\\\CommonBody\\:\\:__construct\\(\\) has parameter \\$result with no type specified\\.$#"
+			count: 1
+			path: src/Infra/Rpc/Response/CommonBody.php
+
+		-
+			message: "#^Method Gnumoksha\\\\FreeIpa\\\\Infra\\\\Rpc\\\\Response\\\\CommonBody\\:\\:jsonSerialize\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Infra/Rpc/Response/CommonBody.php
+
+		-
+			message: "#^Property Gnumoksha\\\\FreeIpa\\\\Model\\\\Group\\\\Group\\:\\:\\$ipaexternalmember type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Model/Group/Group.php
+
+		-
+			message: "#^Property Gnumoksha\\\\FreeIpa\\\\Model\\\\Group\\\\Group\\:\\:\\$member type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Model/Group/Group.php
+
+		-
+			message: "#^Property Gnumoksha\\\\FreeIpa\\\\Model\\\\Group\\\\Group\\:\\:\\$memberindirect type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Model/Group/Group.php
+
+		-
+			message: "#^Property Gnumoksha\\\\FreeIpa\\\\Model\\\\Group\\\\Group\\:\\:\\$memberof type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Model/Group/Group.php
+
+		-
+			message: "#^Property Gnumoksha\\\\FreeIpa\\\\Model\\\\Group\\\\Group\\:\\:\\$memberofindirect type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Model/Group/Group.php
+
+		-
+			message: "#^Method Gnumoksha\\\\FreeIpa\\\\Model\\\\Group\\\\GroupRepository\\:\\:__call\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Model/Group/GroupRepository.php
+
+		-
+			message: "#^Method Gnumoksha\\\\FreeIpa\\\\Model\\\\Group\\\\GroupRepository\\:\\:find\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Model/Group/GroupRepository.php
+
+		-
+			message: "#^Method Gnumoksha\\\\FreeIpa\\\\Model\\\\Group\\\\GroupRepository\\:\\:find\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Model/Group/GroupRepository.php
+
+		-
+			message: "#^Method Gnumoksha\\\\FreeIpa\\\\Model\\\\User\\\\UserRepository\\:\\:__call\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Model/User/UserRepository.php
+
+		-
+			message: "#^Method Gnumoksha\\\\FreeIpa\\\\Model\\\\User\\\\UserRepository\\:\\:add\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Model/User/UserRepository.php
+
+		-
+			message: "#^Method Gnumoksha\\\\FreeIpa\\\\Model\\\\User\\\\UserRepository\\:\\:add\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Model/User/UserRepository.php
+
+		-
+			message: "#^Method Gnumoksha\\\\FreeIpa\\\\Model\\\\User\\\\UserRepository\\:\\:add\\(\\) has parameter \\$user with no type specified\\.$#"
+			count: 1
+			path: src/Model/User/UserRepository.php
+
+		-
+			message: "#^Method Gnumoksha\\\\FreeIpa\\\\Model\\\\User\\\\UserRepository\\:\\:del\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Model/User/UserRepository.php
+
+		-
+			message: "#^Method Gnumoksha\\\\FreeIpa\\\\Model\\\\User\\\\UserRepository\\:\\:del\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Model/User/UserRepository.php
+
+		-
+			message: "#^Method Gnumoksha\\\\FreeIpa\\\\Model\\\\User\\\\UserRepository\\:\\:find\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Model/User/UserRepository.php
+
+		-
+			message: "#^Method Gnumoksha\\\\FreeIpa\\\\Model\\\\User\\\\UserRepository\\:\\:find\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Model/User/UserRepository.php
+
+		-
+			message: "#^Method Gnumoksha\\\\FreeIpa\\\\Model\\\\User\\\\UserRepository\\:\\:mod\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Model/User/UserRepository.php
+
+		-
+			message: "#^Method Gnumoksha\\\\FreeIpa\\\\Model\\\\User\\\\UserRepository\\:\\:mod\\(\\) has parameter \\$newData with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Model/User/UserRepository.php
+
+		-
+			message: "#^Method Gnumoksha\\\\FreeIpa\\\\Model\\\\User\\\\UserRepository\\:\\:mod\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Model/User/UserRepository.php
+
+		-
+			message: "#^Method Gnumoksha\\\\FreeIpa\\\\Model\\\\User\\\\UserRepository\\:\\:show\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Model/User/UserRepository.php
+
+		-
+			message: "#^Method Gnumoksha\\\\FreeIpa\\\\Model\\\\User\\\\UserRepository\\:\\:show\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Model/User/UserRepository.php

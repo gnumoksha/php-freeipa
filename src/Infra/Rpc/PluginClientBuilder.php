@@ -23,16 +23,15 @@ use RuntimeException;
  */
 class PluginClientBuilder implements ClientBuilder
 {
-    /** @var \Gnumoksha\FreeIpa\Options */
-    private $options;
-    /** @var \Psr\Http\Client\ClientInterface|null */
-    private $psrHttpClient;
-    /** @var \Psr\Http\Message\UriFactoryInterface */
-    private $uriFactory;
-    /** @var \Gnumoksha\FreeIpa\Infra\Rpc\Response\BodyBuilder */
-    private $responseBodyBuilder;
-    /** @var \Http\Client\Common\Plugin[] */
-    private $httpClientPlugins;
+    private Options $options;
+
+    private ?ClientInterface $psrHttpClient;
+
+    private UriFactoryInterface $uriFactory;
+
+    private ResponseBodyBuilder|CommonBodyBuilder $responseBodyBuilder;
+
+    private array $httpClientPlugins;
 
     public function __construct(
         Options $options,

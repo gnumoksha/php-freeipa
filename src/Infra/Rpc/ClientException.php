@@ -17,10 +17,13 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 declare(strict_types=1);
 
 namespace Gnumoksha\FreeIpa\Infra\Rpc;
 
-class ClientException extends \RuntimeException implements \Psr\Http\Client\ClientExceptionInterface
+use Psr\Http\Client\ClientExceptionInterface;
+
+class ClientException extends \RuntimeException implements ClientExceptionInterface
 {
 }

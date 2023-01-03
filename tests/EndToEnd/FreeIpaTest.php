@@ -17,6 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 declare(strict_types=1);
 
 namespace Gnumoksha\FreeIpa\EndToEnd;
@@ -50,7 +51,18 @@ class FreeIpaTest extends TestCase
     {
         $this->ipa->login('admin', 'Secret123');
 
-        $response = $this->ipa->getUserRepository()->findBySn('Administrator');
+        $response = $this->ipa->getUserRepository()->findBySn('Admin');
+
+        $this->assertNull($response->getError());
+        $this->assertInstanceOf(\stdClass::class, $response->getResult());
+        $this->assertEquals(1, $response->getResult()->count);
+    }
+
+    public function testMustFindGroup(): void
+    {
+        $this->ipa->login('admin', 'Secret123');
+
+        $response = $this->ipa->getGroupRepository()->findBy('cn', 'ipausers');
 
         $this->assertNull($response->getError());
         $this->assertInstanceOf(\stdClass::class, $response->getResult());

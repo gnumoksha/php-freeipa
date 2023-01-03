@@ -17,15 +17,18 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 declare(strict_types=1);
 
 namespace Gnumoksha\FreeIpa\Model\User;
 
 use BadMethodCallException;
+use Gnumoksha\FreeIpa\Infra\Json\JsonException;
 use Gnumoksha\FreeIpa\Infra\Repository\BaseRepository;
 use Gnumoksha\FreeIpa\Infra\Rpc\Client;
 use Gnumoksha\FreeIpa\Infra\Rpc\Request\Body as RequestBodyInterface;
 use Gnumoksha\FreeIpa\Infra\Rpc\Response\Body as ResponseBodyInterface;
+use Psr\Http\Client\ClientExceptionInterface;
 
 use function strlen;
 
@@ -44,10 +47,9 @@ class UserRepository extends BaseRepository
     /** @var string */
     private const TOPIC = 'user';
 
-    /** @var \Gnumoksha\FreeIpa\Infra\Rpc\Client */
-    private $client;
-    /** @var \Gnumoksha\FreeIpa\Infra\Rpc\Request\Body */
-    private $body;
+    private Client $client;
+
+    private RequestBodyInterface $body;
 
     public function __construct(Client $client, RequestBodyInterface $body)
     {
@@ -56,7 +58,12 @@ class UserRepository extends BaseRepository
     }
 
     /**
-     * @param object|array $user
+     * @param $user
+     * @param array $arguments
+     * @param array $options
+     * @return ResponseBodyInterface
+     * @throws JsonException
+     * @throws ClientExceptionInterface
      */
     public function add($user, array $arguments = [], array $options = []): ResponseBodyInterface
     {
@@ -100,8 +107,8 @@ class UserRepository extends BaseRepository
 
     /**
      * @TODO document string-only argument
-     * @throws \Gnumoksha\FreeIpa\Infra\Json\JsonException
-     * @throws \Psr\Http\Client\ClientExceptionInterface
+     * @throws JsonException
+     * @throws ClientExceptionInterface
      */
     public function find(array $arguments, array $options): ResponseBodyInterface
     {
@@ -121,12 +128,12 @@ class UserRepository extends BaseRepository
     }
 
     /**
-     * @throws \Gnumoksha\FreeIpa\Infra\Json\JsonException
-     * @throws \Psr\Http\Client\ClientExceptionInterface
+     * @throws JsonException
+     * @throws ClientExceptionInterface
      *
      * @see \Gnumoksha\FreeIpa\Model\User\UserRepository::find() base method
      */
-    public function findBy(string $field, $value): ResponseBodyInterface
+    public function findBy(string $field, string $value): ResponseBodyInterface
     {
         return $this->find([], [$field => $value]);
     }
@@ -162,7 +169,7 @@ class UserRepository extends BaseRepository
         return $this->client->sendRequest($body);
     }
 
-    public function __call($name, $arguments)
+    public function __call(string $name, array $arguments): ResponseBodyInterface
     {
         if (strncmp($name, 'findBy', 6) === 0 && strlen($name) > 6) {
             $field = str_replace('findBy', '', $name);

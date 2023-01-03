@@ -17,17 +17,19 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 declare(strict_types=1);
 
 namespace Gnumoksha\FreeIpa\Infra\Rpc\Response;
 
 use Gnumoksha\FreeIpa\Infra\Json\Json;
+use Gnumoksha\FreeIpa\Infra\Json\JsonException;
 use Psr\Http\Message\ResponseInterface;
 
 class CommonBodyBuilder implements BodyBuilder
 {
     /**
-     * @throws \Gnumoksha\FreeIpa\Infra\Json\JsonException
+     * @throws JsonException
      */
     public function build(ResponseInterface $response): Body
     {

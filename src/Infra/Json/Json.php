@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Gnumoksha\FreeIpa\Infra\Json;
 
+use stdClass;
+
 use function json_decode;
 use function json_encode;
 
@@ -21,11 +23,12 @@ final class Json
      * Encode a value as json.
      *
      * @param mixed $value
-     *
-     * @throws \Gnumoksha\FreeIpa\Infra\Json\JsonException
-     * @see \json_encode()
+     * @param int $options
+     * @param int $depth
+     * @return string
+     * @throws JsonException
      */
-    public static function encode($value, int $options = 0, int $depth = 512): string
+    public static function encode(mixed $value, int $options = 0, int $depth = 512): string
     {
         $encoded = json_encode($value, $options, $depth);
 
@@ -39,11 +42,14 @@ final class Json
     /**
      * Decode a value from json.
      *
-     * @return mixed[]|\stdClass
-     * @throws \Gnumoksha\FreeIpa\Infra\Json\JsonException
-     * @see \json_decode()
+     * @param string $json
+     * @param bool $assoc
+     * @param int $depth
+     * @param int $options
+     * @return array|stdClass
+     * @throws JsonException
      */
-    public static function decode(string $json, bool $assoc = false, int $depth = 512, int $options = 0)
+    public static function decode(string $json, bool $assoc = false, int $depth = 512, int $options = 0): array|stdClass
     {
         $decoded = json_decode($json, $assoc, $depth, $options);
 

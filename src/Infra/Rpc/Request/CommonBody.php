@@ -17,34 +17,35 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 declare(strict_types=1);
 
 namespace Gnumoksha\FreeIpa\Infra\Rpc\Request;
 
+use JetBrains\PhpStorm\ArrayShape;
 use stdClass;
 
 class CommonBody implements Body
 {
-    /** @var string */
-    private $method;
-    /** @var string|null */
-    private $methodVersion;
-    /** @var mixed[] */
-    private $arguments;
-    /** @var \stdClass */
-    private $options;
-    /** @var string|mixed */
-    private $id;
+    private string $method;
+
+    private ?string $methodVersion;
+
+    private array $arguments;
+
+    private stdClass $options;
+
+    private mixed $id;
 
     /**
-     * @param mixed $id
+     * @param mixed|null $id
      */
     public function __construct(
         string $method = '',
         array $arguments = [],
         stdClass $options = null,
         ?string $methodVersion = null,
-        $id = null
+        mixed $id = null
     ) {
         $this->method        = $method;
         $this->arguments     = $arguments;
@@ -53,9 +54,6 @@ class CommonBody implements Body
         $this->id            = $id ?? uniqid(sprintf('%s.', 'php-FreeIPA'), true);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getMethod(): string
     {
         return $this->method;
@@ -83,7 +81,7 @@ class CommonBody implements Body
     /**
      * {@inheritDoc}
      */
-    public function withArgument($argument): Body
+    public function withArgument(string $argument): Body
     {
         $new              = clone $this;
         $new->arguments[] = $argument;
@@ -103,9 +101,6 @@ class CommonBody implements Body
         return $new;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getOptions(): stdClass
     {
         return $this->options;
@@ -114,7 +109,7 @@ class CommonBody implements Body
     /**
      * {@inheritDoc}
      */
-    public function withOption($name, $value): Body
+    public function withOption(string $name, ?string $value): Body
     {
         $new                   = clone $this;
         $new->options->{$name} = $value;
@@ -124,6 +119,8 @@ class CommonBody implements Body
 
     /**
      * {@inheritDoc}
+     *
+     * @psalm-suppress PropertyTypeCoercion
      */
     public function withOptions(array $options): Body
     {
@@ -134,7 +131,10 @@ class CommonBody implements Body
     }
 
     /**
-     * {@inheritDoc}
+     * @param array $options
+     * @return Body
+     *
+     * @psalm-suppress PropertyTypeCoercion
      */
     public function withAddedOptions(array $options): Body
     {
@@ -145,9 +145,9 @@ class CommonBody implements Body
     }
 
     /**
-     * @return string|mixed
+     * @return string
      */
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
@@ -155,6 +155,7 @@ class CommonBody implements Body
     /**
      * {@inheritDoc}
      */
+    #[ArrayShape(['method' => "string", 'params' => "array", 'id' => "mixed|string"])]
     public function jsonSerialize(): array
     {
         return [

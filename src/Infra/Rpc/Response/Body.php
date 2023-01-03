@@ -35,7 +35,7 @@ interface Body extends JsonSerializable
      * The object returned by the invoked command. If an error occurred when invoking the command, result is null.
      * @return object|null
      */
-    public function getResult();
+    public function getResult(): ?object;
 
     /**
      * The Kerberos principal of the identity under which the request was performed.
@@ -52,13 +52,13 @@ interface Body extends JsonSerializable
      * An error object if an error occurred when invoking the command. If no error occurred, error is null.
      * @return null|object
      */
-    public function getError();
+    public function getError(): ?object;
 
     /**
      * The id property of the response matches the id property of the corresponding request.
      * @return mixed
      */
-    public function getId();
+    public function getId(): mixed;
 
     public function getVersion(): ?string;
 }

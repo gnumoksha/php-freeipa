@@ -17,16 +17,17 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 declare(strict_types=1);
 
 namespace Gnumoksha\FreeIpa;
 
 class Options
 {
-    private $host;
-    private $certificatePath;
-    private $primaryUrl;
-    private $apiVersion;
+    private string $host;
+    private string $certificatePath;
+    private string $primaryUrl;
+    private ?string $apiVersion;
 
     public function __construct(
         string $host,

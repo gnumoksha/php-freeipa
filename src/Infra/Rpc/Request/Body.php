@@ -52,7 +52,7 @@ interface Body extends JsonSerializable
      *
      * @throws \InvalidArgumentException for invalid HTTP methods.
      */
-    public function withArgument($argument): Body;
+    public function withArgument(string $argument): Body;
 
     /**
      * Return an instance with the provided RPC argument.
@@ -68,7 +68,7 @@ interface Body extends JsonSerializable
      *
      * @throws \InvalidArgumentException for invalid HTTP methods.
      */
-    public function withOption($name, $value): Body;
+    public function withOption(string $name, ?string $value): Body;
 
     /**
      * Return an instance with the provided RPC argument.
@@ -80,5 +80,5 @@ interface Body extends JsonSerializable
 
     public function withAddedOptions(array $options): Body;
 
-    public function getId();
+    public function getId(): string;
 }
